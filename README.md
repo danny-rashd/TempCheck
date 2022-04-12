@@ -1,2 +1,2 @@
 # TempCheck
- A web application that visualizes temperature with login and registration page
+ A web application that can visualize temperature data temperature over time with registration and login page
