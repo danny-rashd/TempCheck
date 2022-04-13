@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -70,5 +71,14 @@ public class AuthUserServiceImpl implements AuthUserService {
         authUser.setEnabled(true);
         authUserRepository.save(authUser);
         return "valid";
+    }
+
+    @Override
+    public VerificationToken generateNewToken(String token) {
+        VerificationToken verificationToken =
+                verificationTokenRepository.findByToken(token);
+        verificationToken.setToken(UUID.randomUUID().toString());
+        verificationTokenRepository.save(verificationToken);
+        return verificationToken;
     }
 }
