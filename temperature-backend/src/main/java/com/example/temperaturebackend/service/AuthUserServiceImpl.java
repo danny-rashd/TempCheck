@@ -64,7 +64,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         if (verificationToken.getExpiredTime().getTime() - cal.getTime().getTime() <= 0) {
             verificationTokenRepository.delete(verificationToken);
             LocalDateTime now = LocalDateTime.now();
-            log.info("Click the link to verify your account: {}", now);
+            log.info(String.valueOf(now));
             return "expired";
         }
         //token is valid & yet to expire

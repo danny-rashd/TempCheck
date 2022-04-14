@@ -13,23 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    private static final String[] WHITE_LIST_URLS = {
-//            "/hello", "/register", "/resendToken"
-//            , "/verifyRegistration"
-//    };
-
-    //    @Bean
-//    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .cors()
-//                .and()
-//                .csrf()
-//                .disable()
-//                .authorizeHttpRequests()
-//                .antMatchers(WHITE_LIST_URLS).permitAll();
-//
-//        return http.build();
-//    }
     @Bean
     public UserDetailsService userDetailsService() {
         return new AuthUserDetailsService();
@@ -56,16 +39,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/users").authenticated()
-                .anyRequest().permitAll()
+
+        http
+                .authorizeRequests()
+                .antMatchers("/api/v*/springboot/**").permitAll()
+                .anyRequest().authenticated()
+                .and().
+                formLogin()
+                    .loginProcessingUrl("/api/v1/springboot/login")
+                    .defaultSuccessUrl("/api/v1/springboot/users",true)
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .and()
+                .httpBasic()
                 .and()
-                .formLogin()
-                .usernameParameter("email")
-                .defaultSuccessUrl("/users")
-                .permitAll()
-                .and()
-                .logout().logoutSuccessUrl("/").permitAll();
+                .csrf().disable()
+                .logout().logoutUrl("/");
+
     }
 
 }

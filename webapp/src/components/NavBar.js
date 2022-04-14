@@ -1,35 +1,40 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import ThermostatIcon from '@mui/icons-material/Thermostat';
-import {Link} from 'react-router-dom';
-export default function NavBar() {
+import React from "react";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+function Header() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="label"
-            sx={{ mr: 4 }}
-          >
-            <ThermostatIcon />
-        <Typography variant="h5" component="div" sx={{ flexGrow: 2 }}>
+    <Navbar bg="primary" variant="dark" expand="lg" py-5>
+      <Container fluid>
+        <Navbar.Brand href="/">
+          <img
+            alt=""
+            src="https://icons.getbootstrap.com/assets/icons/rainbow.svg"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{" "}
           TempCheck
-        </Typography>
-          </IconButton>
-          <Button component={Link} to='/' color='inherit'>Home</Button>
-          <Button component={Link} to='/login' color='inherit'>Login</Button>
-          <Button component={Link} to='/register' color='inherit'>Register</Button>
-          <Button component={Link} to='/upload' color='inherit'>Upload</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: "200px" }}
+            navbarScroll
+          >
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="upload">Upload</Nav.Link>
+          </Nav>
+          <Nav>
+            <Navbar.Brand href="login">Login</Navbar.Brand>
+            <Button href="register" variant="dark">
+              Register
+            </Button>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
+
+export default Header;

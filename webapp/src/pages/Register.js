@@ -1,113 +1,104 @@
-import { useState, useEffect } from "react";
-import { Form, Button, Card, Container } from "react-bootstrap";
-
-
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
+import Card from "react-bootstrap/Card";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faLock,
+  faRightToBracket,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
+import "./Login.css";
 
 function Register() {
-  const initialValues = { username: "", email: "", password: "" };
-  const [formValues, setFormValues] = useState(initialValues);
-  const [formErrors, setFormErrors] = useState({});
-  const [isSubmit, setIsSubmit] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormErrors(validate(formValues));
-    setIsSubmit(true);
-  };
-
-  useEffect(() => {
-    console.log(formErrors);
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(formValues);
-    }
-  }, [formErrors]);
-  const validate = (values) => {
-    const errors = {};
-    const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9_]{3,23}$/;
-    const PWD_REGEX =/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_]).{8,24}$/;
-    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.username) {
-      errors.username = "Username is required!";
-    } else if (!USER_REGEX.test(values.username)) {
-      errors.email = "This is not a valid email format!";
-    }
-    if (!values.email) {
-      errors.email = "Email is required!";
-    } else if (!EMAIL_REGEX.test(values.email)) {
-      errors.email = "This is not a valid email format!";
-    }
-    if (!values.password) {
-      errors.password = "Password is required";
-    } else if (!PWD_REGEX.test(values.password)) {
-      errors.password = "This is not a valid password format!";
-    }
-    return errors;
-  };
-
   return (
-    <Container
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: "100vh" }}
-    >
-      <div className="w-100" style={{ maxWidth: "400px" }}>
-        {Object.keys(formErrors).length === 0 && isSubmit ? (
-          <div className="ui message success">Signed in successfully</div>
-        ) : (
-          <pre>{JSON.stringify(formValues, undefined, 2)}</pre>
-        )}
-        <Card>
-          <Form onSubmit={handleSubmit}>
-            <h2 className="text-center mb-4">Sign Up</h2>
-            <div className="ui divider"></div>
-            <div className="ui form">
-              <Form.Group className="mb-3" id="email">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="username"
-                  placeholder="Username"
-                  value={formValues.onChange}
-                  onChange={handleChange}
-                  required
-                ></Form.Control>
-              </Form.Group>
-              <p>{formErrors.username}</p>
-              <Form.Group id="email">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  value={formValues.email}
-                  onChange={handleChange}
-                  required
-                ></Form.Control>
-              </Form.Group>
-              <p>{formErrors.email}</p>
-              <Form.Group id="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formValues.password}
-                  onChange={handleChange}
-                  required
-                ></Form.Control>
-              </Form.Group>
-              <p>{formErrors.password}</p>
-              <Button className="w-100" type="Login">
-                Sign Up
-              </Button>
-            </div>
-          </Form>
-        </Card>
-      </div>
+    <Container id="main-container" className="d-grid h-100">
+      <Card>
+        <Form id="sign-up-form" className="text-center p-3 w-100">
+          <Form.Group className="d-flex justify-content-center mb-1">
+            <img
+              className="mb-4 bootstrap-logo"
+              src="https://icons.getbootstrap.com/assets/icons/thermometer-half.svg"
+              alt="Bootstrap 5"
+            />
+          </Form.Group>
+          <h1 className="mb-3 fs-31 fw-normal">Register</h1>
+          <InputGroup
+            className="d-flex justify-content-center mt-2 mb-2"
+            controlId="sign-in-email-address"
+          >
+            <InputGroup.Text>
+              <FontAwesomeIcon icon={faEnvelope} />
+            </InputGroup.Text>
+            <Form.Control
+              required
+              autoComplete="off"
+              type="email"
+              size="lg"
+              placeholder="Email address"
+              className="position-relative"
+            />
+          </InputGroup>
+          <InputGroup
+            className="d-flex justify-content-center mt-2 mb-2"
+            controlId="sign-in-email-address"
+          >
+            <InputGroup.Text>
+              <FontAwesomeIcon icon={faUser} />
+            </InputGroup.Text>
+            <Form.Control
+              required
+              autoComplete="off"
+              type="text"
+              size="lg"
+              placeholder="First Name"
+              className="position-relative"
+            />
+          </InputGroup>
+          <InputGroup
+            className="d-flex justify-content-center mt-2 mb-2"
+            controlId="sign-in-email-address"
+          >
+            <InputGroup.Text>
+              <FontAwesomeIcon icon={faUser} />
+            </InputGroup.Text>
+            <Form.Control
+              required
+              autoComplete="off"
+              type="email"
+              size="lg"
+              placeholder="Last Name"
+              className="position-relative"
+            />
+          </InputGroup>
+          <InputGroup
+            className="d-flex justify-content-center mb-2"
+            controlId="sign-in-password"
+          >
+            <InputGroup.Text>
+              <FontAwesomeIcon icon={faLock} />
+            </InputGroup.Text>
+            <FormControl
+              required
+              autoComplete="off"
+              type="password"
+              size="lg"
+              placeholder="Password"
+              className="position-relative"
+            />
+          </InputGroup>
+          <Form.Group className="d-flex justify-content-center m-1"></Form.Group>
+          <div className="d-grid">
+            <Button variant="primary" size="lg">
+              Submit
+              <FontAwesomeIcon icon={faRightToBracket} className="mr-3" />
+            </Button>
+          </div>
+        </Form>
+      </Card>
     </Container>
   );
 }

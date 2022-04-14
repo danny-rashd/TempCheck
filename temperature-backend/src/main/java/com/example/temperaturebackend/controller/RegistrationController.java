@@ -9,16 +9,21 @@ import com.example.temperaturebackend.service.AuthUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 @Slf4j
-@Controller
+@RestController
+@CrossOrigin
+@RequestMapping(path = "api/v1/springboot")
 public class RegistrationController {
 
     @Autowired
@@ -36,12 +41,13 @@ public class RegistrationController {
     @Autowired
     private EmailSenderService emailSenderService;
 
-
+    // index page -> http://localhost:8080/
     @GetMapping("")
     public String viewHomePage() {
         return "index";
     }
 
+    // register page -> http://localhost:8080/register
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("authUser", new AuthUser());
@@ -49,21 +55,7 @@ public class RegistrationController {
         return "signup_form";
     }
 
-    @GetMapping("/login")
-    public String showLoginForm(Model model) {
-        model.addAttribute("authUser", new AuthUser());
-
-        return "login";
-    }
-
-    @GetMapping("/users")
-    public String listUsers(Model model) {
-        List<AuthUser> listUsers = authUserRepository.findAll();
-        model.addAttribute("listUsers", listUsers);
-
-        return "users";
-    }
-
+    // process after clicking submit in register
     @RequestMapping(value = "/process_register", method = RequestMethod.POST)
     public String processRegister(AuthUserModel authUserModel, final HttpServletRequest request) {
 
@@ -89,8 +81,17 @@ public class RegistrationController {
         return "register_success";
     }
 
+    // display page when login is successful -> http://localhost:8080/users
+    @GetMapping("/users")
+    public String user(AuthUser authUser) {
+        String email = authUser.getEmail();
+        System.out.println("username: " + email);
+        return "Hello User";
+    }
+
+    //
     @PostMapping("/register")
-    public String registerUser(@RequestBody AuthUserModel authUserModel, final HttpServletRequest request) {
+    public String addUser(@RequestBody AuthUserModel authUserModel, final HttpServletRequest request) {
 
         //Check if valid email
         boolean isValidEmail = emailValidator.test(authUserModel.getEmail());
@@ -114,11 +115,11 @@ public class RegistrationController {
         return "success";
     }
 
-
     @GetMapping("/verifyRegistration")
     public String verifyToken(@RequestParam("token") String token) {
         String result = authUserService.validateVerificationToken(token);
 
+        // verify user when the verification link is clicked
         if (result.equalsIgnoreCase("valid")) {
             return "User verified".toString();
         }
@@ -136,7 +137,7 @@ public class RegistrationController {
 
     private void resendTokenEmail(AuthUser authUser, String applicationUrl, VerificationToken verificationToken) {
         String url = applicationUrl
-                + "/verifyRegistration?token="
+                + "api/v1/springboot/verifyRegistration?token="
                 + verificationToken.getToken();
 
         //send verification email
