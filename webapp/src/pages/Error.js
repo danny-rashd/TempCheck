@@ -1,7 +1,8 @@
-import React from "react";
 
-function Error() {
-  return <div>ERROR! INVALID PAGE</div>;
+export const Error = () => {
+  return (
+    <>
+      <div>Invalid page</div>
+    </>
+  )
 }
-
-export default Error;

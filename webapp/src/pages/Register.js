@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useAuth } from '../components/auth'
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -13,7 +16,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./Login.css";
 
-function Register() {
+export const Register = () => {
+  const [user, setUser] = useState('')
+  const navigate = useNavigate()
+  const location = useLocation()
+  const auth = useAuth()
+
+  const redirectPath = location.state?.path || '/'
+
+  const handleLogin = () => {
+    auth.login(user)
+    navigate(redirectPath, { replace: true })
+  }
   return (
     <Container id="main-container" className="d-grid h-100">
       <Card>
@@ -92,7 +106,7 @@ function Register() {
           </InputGroup>
           <Form.Group className="d-flex justify-content-center m-1"></Form.Group>
           <div className="d-grid">
-            <Button variant="primary" size="lg">
+            <Button variant="primary" size="lg" onClick={{handleLogin}}>
               Submit
               <FontAwesomeIcon icon={faRightToBracket} className="mr-3" />
             </Button>
@@ -100,7 +114,5 @@ function Register() {
         </Form>
       </Card>
     </Container>
-  );
+  )
 }
-
-export default Register;

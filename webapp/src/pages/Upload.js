@@ -1,26 +1,25 @@
-import "../App.css";
-import React, { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../components/auth";
+import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import Papa from "papaparse";
+import { Container, Form, Button } from "react-bootstrap";
 
-function Upload(props) {
-  const {
-    getRootProps,
-    getInputProps,
-    isFocused,
-    isDragAccept,
-    isDragReject,
-  } = useDropzone({ });
+export const Upload = (props) => {
+  const navigate = useNavigate();
+  const auth = useAuth();
+  const handleLogout = () => {
+    auth.logout();
+    navigate("/");
+  };
 
-  const style = useMemo(
-    () => ({
-      ...baseStyle,
-      ...(isFocused ? focusedStyle : {}),
-      ...(isDragAccept ? acceptStyle : {}),
-      ...(isDragReject ? rejectStyle : {}),
-    }),
-    [isFocused, isDragAccept, isDragReject]
-  );
+  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({});
+
+  const files = acceptedFiles.map((file) => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
 
   // State to store parsed data
   const [parsedData, setParsedData] = useState([]);
@@ -59,10 +58,12 @@ function Upload(props) {
   };
 
   return (
-    <section className="container">
-      <div>
-        <div className="container">
-          <div {...getRootProps({ style })}>
+    <Container id="main-container" className="d-grid h-50">
+      <Form id="sign-in-form" className="text-center p-2 w-100">
+        <div>Welcome {auth.user}</div>
+        <Button onClick={handleLogout}>Logout</Button>
+        <Container>
+          <div {...getRootProps({ className: "dropzone" })}>
             <input
               {...getInputProps()}
               type="file"
@@ -71,9 +72,12 @@ function Upload(props) {
               accept=".csv"
               style={{ display: "block", margin: "10px auto" }}
             />
-            <p>Drag 'n' drop some files here, or click to select files</p>
           </div>
-        </div>
+          <aside>
+            <h4>Files</h4>
+            <ul>{files}</ul>
+          </aside>
+        </Container>
         <br />
         <br />
         {/* Table */}
@@ -111,38 +115,8 @@ function Upload(props) {
             </tbody>
           </table>
         </div>
-      </div>
-    </section>
+      </Form>
+    </Container>
   );
-}
-
-export default Upload;
-
-// Inline styles for the dropzone
-const baseStyle = {
-  flex: 1,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  padding: "20px",
-  borderWidth: 2,
-  borderRadius: 2,
-  borderColor: "#eeeeee",
-  borderStyle: "dashed",
-  backgroundColor: "#fafafa",
-  color: "#bdbdbd",
-  outline: "none",
-  transition: "border .24s ease-in-out",
 };
 
-const focusedStyle = {
-  borderColor: "#2196f3",
-};
-
-const acceptStyle = {
-  borderColor: "#00e676",
-};
-
-const rejectStyle = {
-  borderColor: "#ff1744",
-};

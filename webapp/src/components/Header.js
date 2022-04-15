@@ -1,6 +1,6 @@
 import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
-import { useAuth } from "../components/auth";
+import { useAuth } from "./auth";
 
 function Header() {
   const auth = useAuth();
@@ -21,12 +21,11 @@ function Header() {
         <Navbar.Collapse id="navbarScroll">
           <Nav
             className="me-auto my-2 my-lg-0"
-            style={{ maxHeight: "200px" }}                                              
+            style={{ maxHeight: "200px" }}
             navbarScroll
           >
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="upload">Upload</Nav.Link>
-            <Nav.Link href="table">Table</Nav.Link>
           </Nav>
           <Nav>
           {!auth.user && (<Navbar.Brand href="login">Login</Navbar.Brand>)}

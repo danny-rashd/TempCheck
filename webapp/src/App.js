@@ -1,27 +1,37 @@
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Home from "./pages/Home";
-import Upload from "./pages/Upload";
-import Error from "./pages/Error";
-import Header from "./components/NavBar";
-import Footer from "./components/Footer";
-import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-const App = () => {
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import { Home } from './pages/Home'
+import  Header  from './components/Header'
+import Footer from './components/Footer';
+import { Error } from './pages/Error'
+import { AuthProvider } from './components/auth'
+import { Login } from './pages/Login'
+import { Upload } from './pages/Upload'
+import { Register } from './pages/Register'
+import { RequireAuth } from './components/RequireAuth'
+import Table from './pages/Table';
+function App() {
   return (
-    <Router>
+    <AuthProvider>
       <Header />
       <Routes>
-        <Route exact path="/" element={<Home />}></Route>
-        <Route exact path="/upload" element={<Upload />}></Route>
-        <Route exact path="/login" element={<Login />}></Route>
-        <Route exact path="/register" element={<Register />}></Route>
-        <Route exact path="*" element={<Error />}></Route>
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/table' element={<Table />} />
+        <Route path='/register' element={<Register />} />
+        <Route
+          path='/upload'
+          element={
+            <RequireAuth>
+              <Upload />
+            </RequireAuth>
+          }
+        />
+        <Route path='*' element={<Error />} />
       </Routes>
-      <Footer />
-    </Router>
-  );
-};
+      <Footer/>
+    </AuthProvider>
+  )
+}
 
-export default App;
+export default App
