@@ -1,6 +1,8 @@
 package com.example.temperaturebackend.controller;
 
+import com.example.temperaturebackend.details.AuthUserDetails;
 import com.example.temperaturebackend.email.EmailSenderService;
+import com.example.temperaturebackend.email.EmailValidator;
 import com.example.temperaturebackend.entity.AuthUser;
 import com.example.temperaturebackend.entity.AuthUserModel;
 import com.example.temperaturebackend.entity.VerificationToken;
@@ -10,15 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 
 @Slf4j
 @RestController
@@ -83,10 +81,20 @@ public class RegistrationController {
 
     // display page when login is successful -> http://localhost:8080/users
     @GetMapping("/users")
-    public String user(AuthUser authUser) {
+    public String getUsers(AuthUser authUser) {
         String email = authUser.getEmail();
         System.out.println("username: " + email);
         return "Hello User";
+    }
+
+    @GetMapping("/home")
+    public String getHomePage() {
+        return "Home page";
+    }
+
+    @GetMapping("/admin")
+    public String getAdminPage() {
+        return "Admin page";
     }
 
     //

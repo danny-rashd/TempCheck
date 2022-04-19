@@ -1,40 +1,52 @@
 package com.example.temperaturebackend.config;
 
+import com.example.temperaturebackend.details.AuthUserDetails;
 import com.example.temperaturebackend.details.AuthUserDetailsService;
+import com.example.temperaturebackend.service.AuthUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
+@Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new AuthUserDetailsService();
-    }
+    @Autowired
+    private AuthUserDetailsService authUserDetailsService;
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-
-        return authProvider;
-    }
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
+
+        auth.inMemoryAuthentication().withUser("Danny").password(passwordEncoder().encode("password"))
+                .authorities("USER", "ADMIN");
+
+        auth.userDetailsService(authUserDetailsService).passwordEncoder(passwordEncoder());
+
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
     @Override
@@ -42,20 +54,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/api/v*/springboot/**").permitAll()
-                .anyRequest().authenticated()
-                .and().
-                formLogin()
-                    .loginProcessingUrl("/api/v1/springboot/login")
-                    .defaultSuccessUrl("/api/v1/springboot/users",true)
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .and()
-                .httpBasic()
+                .antMatchers("/")
+                .permitAll()
+                .antMatchers("/home")
+                .hasAuthority("USER")
+                .antMatchers("/admin")
+                .hasAuthority("ADMIN")
+                .anyRequest()
+                .authenticated()
                 .and()
-                .csrf().disable()
-                .logout().logoutUrl("/");
-
+                .httpBasic();
     }
 
+//    public JwtAuthenticationFilter jwtAuthorizationFilter() throws Exception {
+//        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager());
+//        jwtAuthenticationFilter.setFilterProcessesUrl("/api/v1/login");
+//        return jwtAuthenticationFilter;
+//    }
 }
