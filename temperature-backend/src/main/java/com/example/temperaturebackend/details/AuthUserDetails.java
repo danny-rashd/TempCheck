@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Optional;
 
 public class AuthUserDetails implements UserDetails {
 
@@ -31,7 +30,7 @@ public class AuthUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return authUser.getEmail();
+        return authUser.getUsername();
     }
 
     @Override
@@ -54,7 +53,17 @@ public class AuthUserDetails implements UserDetails {
         return authUser.isEnabled();
     }
 
+    public String getFirstName() {
+        return authUser.getFirstName();
+    }
+
+    public String getLastName() {
+        return authUser.getLastName();
+    }
+
     public String getFullName() {
         return authUser.getFirstName() + " " + authUser.getLastName();
     }
+
+
 }

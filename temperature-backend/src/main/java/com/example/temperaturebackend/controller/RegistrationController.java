@@ -7,13 +7,26 @@ import com.example.temperaturebackend.entity.AuthUser;
 import com.example.temperaturebackend.entity.AuthUserModel;
 import com.example.temperaturebackend.entity.VerificationToken;
 import com.example.temperaturebackend.repository.AuthUserRepository;
+import com.example.temperaturebackend.response.UserInfo;
 import com.example.temperaturebackend.service.AuthUserService;
+
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
+import java.security.spec.InvalidKeySpecException;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.ui.Model;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +41,9 @@ public class RegistrationController {
     private AuthUserService authUserService;
 
     @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
     private ApplicationEventPublisher publisher;
 
     @Autowired
@@ -39,53 +55,8 @@ public class RegistrationController {
     @Autowired
     private EmailSenderService emailSenderService;
 
-    // index page -> http://localhost:8080/
-    @GetMapping("")
-    public String viewHomePage() {
-        return "index";
-    }
-
-    // register page -> http://localhost:8080/register
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("authUser", new AuthUser());
-
-        return "signup_form";
-    }
-
-    // process after clicking submit in register
-    @RequestMapping(value = "/process_register", method = RequestMethod.POST)
-    public String processRegister(AuthUserModel authUserModel, final HttpServletRequest request) {
-
-        //Check if valid email
-        boolean isValidEmail = emailValidator.test(authUserModel.getEmail());
-        if (!isValidEmail) {
-            throw new IllegalStateException("Invalid email!");
-        }
-
-        //Check if email exists
-        boolean userExists = authUserRepository.findByEmail(authUserModel.getEmail()).isPresent();
-        if (userExists) {
-            throw new IllegalStateException("Email already taken!");
-        }
-
-        AuthUser authUser = authUserService.registerAuthUser(authUserModel);
-
-        //create event to sent token to user in email
-        publisher.publishEvent(new RegistrationCompleteEvent(
-                authUser,
-                applicationUrl(request)
-        ));
-        return "register_success";
-    }
-
-    // display page when login is successful -> http://localhost:8080/users
-    @GetMapping("/users")
-    public String getUsers(AuthUser authUser) {
-        String email = authUser.getEmail();
-        System.out.println("username: " + email);
-        return "Hello User";
-    }
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @GetMapping("/home")
     public String getHomePage() {
@@ -97,10 +68,9 @@ public class RegistrationController {
         return "Admin page";
     }
 
-    //
-    @PostMapping("/register")
-    public String addUser(@RequestBody AuthUserModel authUserModel, final HttpServletRequest request) {
 
+    @PostMapping("/register")
+    public String register(@RequestBody AuthUserModel authUserModel, final HttpServletRequest request) {
         //Check if valid email
         boolean isValidEmail = emailValidator.test(authUserModel.getEmail());
         if (!isValidEmail) {
@@ -123,15 +93,41 @@ public class RegistrationController {
         return "success";
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
+
+        final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        AuthUserDetails authUserDetails = (AuthUserDetails) authentication.getPrincipal();
+
+        return ResponseEntity.ok(authUserDetails);
+    }
+
     @GetMapping("/verifyRegistration")
     public String verifyToken(@RequestParam("token") String token) {
         String result = authUserService.validateVerificationToken(token);
 
         // verify user when the verification link is clicked
         if (result.equalsIgnoreCase("valid")) {
-            return "User verified".toString();
+            return "User confirmed!".toString();
         }
-        return "Bad User".toString();
+        return "Invalid confirmation email!".toString();
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<?> getUserInfo(Principal user) {
+        AuthUserDetails userObj = (AuthUserDetails) userDetailsService.loadUserByUsername(user.getName());
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setFirstName(userObj.getFirstName());
+        userInfo.setLastName(userObj.getLastName());
+        userInfo.setUsername(userObj.getUsername());
+
+        return ResponseEntity.ok(userInfo);
+
     }
 
     @GetMapping("/resendToken")

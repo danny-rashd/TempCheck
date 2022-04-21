@@ -2,13 +2,15 @@ package com.example.temperaturebackend.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Setter
+@Data
 @ToString
 @RequiredArgsConstructor
 public class AuthUser {
@@ -18,6 +20,7 @@ public class AuthUser {
     private Long id;
     private String firstName;
     private String lastName;
+    private String username;
     private String email;
     @Column(length = 60)
     private String password;
@@ -36,4 +39,5 @@ public class AuthUser {
     public int hashCode() {
         return getClass().hashCode();
     }
+
 }

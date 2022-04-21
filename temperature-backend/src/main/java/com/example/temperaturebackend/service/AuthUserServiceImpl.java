@@ -32,6 +32,7 @@ public class AuthUserServiceImpl implements AuthUserService {
 
         AuthUser authUser = new AuthUser();
         authUser.setEmail(authUserModel.getEmail());
+        authUser.setUsername(authUserModel.getEmail());
         authUser.setFirstName(authUserModel.getFirstName());
         authUser.setLastName(authUserModel.getLastName());
         authUser.setRole("USER");
@@ -57,6 +58,7 @@ public class AuthUserServiceImpl implements AuthUserService {
         if (verificationToken == null) {
             return "Invalid Token!";
         }
+
         AuthUser authUser = verificationToken.getAuthUser();
         Calendar cal = Calendar.getInstance();
 
