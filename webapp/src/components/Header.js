@@ -1,11 +1,9 @@
 import React from "react";
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
-import { useAuth } from "./auth";
 
 function Header() {
-  const auth = useAuth();
   return (
-    <Navbar bg="primary" variant="dark" expand="lg" py-5>
+    <Navbar bg="primary" variant="dark" expand="lg">
       <Container fluid>
         <Navbar.Brand href="/">
           <img
@@ -27,13 +25,13 @@ function Header() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="upload">Upload</Nav.Link>
           </Nav>
-          <Nav>
-          {!auth.user && (<Navbar.Brand href="login">Login</Navbar.Brand>)}
-            <Button href="register" variant="dark">
-              Register
-            </Button>
-          </Nav>
         </Navbar.Collapse>
+        <Nav>
+          <Navbar.Brand href="login">Login</Navbar.Brand>
+          <Button href="register" variant="dark">
+            Register
+          </Button>
+        </Nav>
       </Container>
     </Navbar>
   );

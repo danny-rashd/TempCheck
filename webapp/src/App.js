@@ -1,37 +1,31 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import { Home } from './pages/Home'
-import  Header  from './components/Header'
-import Footer from './components/Footer';
-import { Error } from './pages/Error'
-import { AuthProvider } from './components/auth'
-import { Login } from './pages/Login'
-import { Upload } from './pages/Upload'
-import { Register } from './pages/Register'
-import { RequireAuth } from './components/RequireAuth'
-import Table from './pages/Table';
+import "./App.css";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import { Dashboard } from "./pages/response/dashboard";
+import Register from "./pages/Register";
+import { RegisterSuccess } from "./pages/response/RegisterSuccess";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import { Upload } from "./pages/Upload";
+import { Home } from "./pages/Home";
+import { DataTable } from "./pages/DataTable";
+
 function App() {
   return (
-    <AuthProvider>
+    <BrowserRouter>
       <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/table' element={<Table />} />
-        <Route path='/register' element={<Register />} />
-        <Route
-          path='/upload'
-          element={
-            <RequireAuth>
-              <Upload />
-            </RequireAuth>
-          }
-        />
-        <Route path='*' element={<Error />} />
-      </Routes>
-      <Footer/>
-    </AuthProvider>
-  )
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/register" component={Register} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/success" component={RegisterSuccess} />
+        <Route exact path="/upload" component={Upload} />
+        <Route exact path="/table" component={DataTable} />
+      </Switch>
+      <Footer />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

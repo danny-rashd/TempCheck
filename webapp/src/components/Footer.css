@@ -1,23 +1,25 @@
 /* Ganeral Style */
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-div{
-    background-color: blueviolet;
-    padding: 30px;
-    height: 100px;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid darkturquoise;
+div {
+  background-color: blueviolet;
+  padding: 30px;
+  height: 100px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid darkturquoise;
 }
 /* Style for solution */
-.content{
-    min-height: calc(100vh - 200px);/* header + footer = 200px */
-    /*height: 800px;*/ /* To test if the content extend over the page */
+.content {
+  min-height: calc(100vh - 200px); /* header + footer = 200px */
+  /*height: 800px;*/ /* To test if the content extend over the page */
 }
-.footer{}
-.header{}
+.footer {
+}
+.header {
+}

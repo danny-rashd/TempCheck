@@ -7,8 +7,7 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { useDropzone } from "react-dropzone";
 import Papa from "papaparse";
 
-
-//generate data 
+//generate data
 export const productsGenerator = (quantity) => {
   const items = [];
   for (let i = 1; i < quantity; i++) {
@@ -18,7 +17,6 @@ export const productsGenerator = (quantity) => {
 };
 
 const products = productsGenerator(100);
-
 
 export default function Table() {
   const { getInputProps, isFocused, isDragAccept, isDragReject } = useDropzone(
@@ -75,7 +73,7 @@ export default function Table() {
     {
       dataField: "price",
       text: "Product Price in $",
-      sort: true
+      sort: true,
     },
   ];
 
