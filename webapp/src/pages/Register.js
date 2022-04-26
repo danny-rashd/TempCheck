@@ -1,23 +1,14 @@
-import react, { useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { authenticate, authFailure, authSuccess } from "../redux/authActions";
 import "./home.css";
 import { userRegister } from "../api/authenticationService";
-import {
-  Alert,
-  Spinner,
-  Container,
-  Card,
-  Form,
-  InputGroup,
-  Button,
-} from "react-bootstrap";
+import { Alert, Spinner, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
   faLock,
   faUserPlus,
-  faIdCard,
   faIdBadge,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -110,7 +101,6 @@ const Register = ({ loading, error, ...props }) => {
                           value={values.email}
                           onChange={handleChange}
                           autoComplete="off"
-                          auto
                           required
                         />
                       </div>
@@ -132,6 +122,7 @@ const Register = ({ loading, error, ...props }) => {
                           onChange={handleChange}
                           name="firstName"
                           placeholder="First Name"
+                          autoComplete="off"
                           required
                         />
                       </div>
@@ -152,6 +143,7 @@ const Register = ({ loading, error, ...props }) => {
                           onChange={handleChange}
                           name="lastName"
                           placeholder="Last Name"
+                          autoComplete="off"
                           required
                         />
                       </div>
@@ -197,11 +189,6 @@ const Register = ({ loading, error, ...props }) => {
                         )}
                       </Button>
                     </div>
-                    <div class="text-center">
-                      <a class="medium" href="#">
-                        Forgot password?
-                      </a>
-                    </div>
                   </Form>
                   {error && (
                     <Alert style={{ marginTop: "20px" }} variant="danger">
@@ -221,12 +208,13 @@ const Register = ({ loading, error, ...props }) => {
             <div class="overlay">
               <div class="overlay-panel overlay-left">
                 <h3>Already have an account?</h3>
-                <button
-                  class="btn btn-lg btn-dark btn-login fw-bold ghost zmb-2"
+                <Button
+                  className="btn btn-lg btn-dark btn-login fw-bold ghost zmb-2"
                   id="signIn"
+                  href="/login"
                 >
                   Login
-                </button>
+                </Button>
               </div>
             </div>
           </div>

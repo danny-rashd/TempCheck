@@ -1,34 +1,42 @@
-import React, { useState } from "react";
-import { Button, Container } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import styled from "styled-components";
-import { fetchUserData } from "../../api/authenticationService";
-
-const MainWrapper = styled.div`
-  padding-top: 40px;
-`;
+import React from "react";
+import { Button, Card } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
+import "../home.css";
 
 export const Dashboard = (props) => {
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState({});
-
   const logOut = () => {
     localStorage.clear();
     props.history.push("/");
   };
 
-  return (
-    <Container>
-      <MainWrapper>
-        <h4>Welcome User! </h4>
-        <br></br>
-        <br></br>
+  const goToTable = () => {
+    localStorage.clear();
+    props.history.push("/temptable");
+  };
 
-        <Button style={{ marginTop: "5px" }} onClick={() => logOut()}>
-          Logout
-        </Button>
-      </MainWrapper>
-    </Container>
+  return (
+    <div className="centered">
+        <Card className="text-center">
+          <Card.Header>
+            <FontAwesomeIcon icon={faDoorOpen} size="2x" />
+          </Card.Header>
+          <Card.Body>
+            <Card.Title>Welcome User!</Card.Title>
+            <Card.Text>
+              Explore the page to find out more about the web application
+            </Card.Text>
+            <Button className="btn btn-primary " onClick={() => goToTable()}>
+              Go To Table page
+            </Button>
+            <Button
+              className="btn btn-secondary ml-5 "
+              onClick={() => logOut()}
+            >
+              Logout
+            </Button>
+          </Card.Body>
+        </Card>
+    </div>
   );
 };

@@ -23,12 +23,13 @@ function Header() {
             navbarScroll
           >
             <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="upload">Upload</Nav.Link>
+            <Nav.Link href="/temptable">TempTable</Nav.Link>
+            <Nav.Link href="/predict">Predictions</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <Nav>
-          <Navbar.Brand href="login">Login</Navbar.Brand>
-          <Button href="register" variant="dark">
+          <Navbar.Brand href="/login">Login</Navbar.Brand>
+          <Button href="/register" variant="dark">
             Register
           </Button>
         </Nav>

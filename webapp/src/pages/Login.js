@@ -1,17 +1,9 @@
-import react, { useState } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
 import { authenticate, authFailure, authSuccess } from "../redux/authActions";
 import "./home.css";
 import { userLogin } from "../api/authenticationService";
-import {
-  Alert,
-  Spinner,
-  Container,
-  Form,
-  Card,
-  InputGroup,
-  Button,
-} from "react-bootstrap";
+import { Alert, Spinner, Form, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSignInAlt,
@@ -76,13 +68,14 @@ const Login = ({ loading, error, ...props }) => {
               <div class="overlay-panel overlay-left">
                 <h1>First time?</h1>
                 <p></p>
-                <h4>Sign up and explore this web app</h4>
-                <button
+                <h4>Sign Up and explore this web app</h4>
+                <Button
                   class="btn btn-lg btn-dark btn-login fw-bold ghost zmb-2"
                   id="signUp"
+                  href="/register"
                 >
                   Register Now
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -97,6 +90,7 @@ const Login = ({ loading, error, ...props }) => {
                     className="mb-2 bootstrap-logo"
                     src="https://icons.getbootstrap.com/assets/icons/rainbow.svg"
                     alt="Bootstrap 5"
+                    s
                   />
                   <Form
                     id="sign-in-form"
@@ -120,7 +114,6 @@ const Login = ({ loading, error, ...props }) => {
                           value={values.username}
                           onChange={handleChange}
                           autoComplete="off"
-                          auto
                           required
                         />
                       </div>
@@ -146,20 +139,6 @@ const Login = ({ loading, error, ...props }) => {
                         />
                       </div>
                     </div>
-                    <div class="form-check mb-4">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        value=""
-                        id="rememberPasswordCheck"
-                      />
-                      <label
-                        class="form-check-label"
-                        for="rememberPasswordCheck"
-                      >
-                        Remember password
-                      </label>
-                    </div>
                     <div class="d-grid">
                       <Button
                         variant="primary"
@@ -180,8 +159,8 @@ const Login = ({ loading, error, ...props }) => {
                         )}
                       </Button>
                     </div>
-                    <div class="text-center">
-                      <a class="medium" href="#">
+                    <div>
+                      <a class="medium" href="/forgot">
                         Forgot password?
                       </a>
                     </div>

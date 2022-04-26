@@ -1,67 +1,31 @@
-import { Container, Card, Form, Button } from "react-bootstrap";
+import { Card, Form, Button } from "react-bootstrap";
 import "./home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSignInAlt,
-  faEnvelope,
-  faLock,
-} from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
-
-const BgImageOverlay = styled.h1`
-  font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
-`;
+import { faHome, faRainbow } from "@fortawesome/free-solid-svg-icons";
 
 export const Home = () => {
   return (
-    <Container id="main-container" className="d-grid h-50">
+    <div className="centered">
       <Form id="sign-in-form" className="text-center p-2 w-100"></Form>
       <Card className="text-center">
-        <Card.Header>Home</Card.Header>
+        <Card.Header>
+          <FontAwesomeIcon className="mr-2" icon={faHome} />
+          Home
+        </Card.Header>
         <Card.Body>
           <Card.Title>TempCheck</Card.Title>
+          <FontAwesomeIcon className="ml-1" size="2x" icon={faRainbow} />
           <Card.Text>
             Web application to visualize and predict temperature data
           </Card.Text>
-          <Button href="login" variant="primary">
+          <Button href="/login" variant="primary">
             Login
           </Button>
-          <Button href="register" variant="secondary">
+          <Button href="/register" variant="secondary">
             Register
           </Button>
         </Card.Body>
-        <Card.Footer className="text-muted">2 days ago</Card.Footer>
       </Card>
-    </Container>
-    //     <div class="login">
-    //       <h1>Login</h1>
-    //       <form method="post">
-    //         <input
-    //           type="text"
-    //           name="u"
-    //           placeholder="Username"
-    //           required="required"
-    //         />
-    //         <input
-    //           type="password"
-    //           name="p"
-    //           placeholder="Password"
-    //           required="required"
-    //         />
-    //         <button type="submit" class="btn btn-primary btn-block btn-large">
-    //           Let me in.
-    //         </button>
-    //       </form>
-    //     </div>
-    //  <div class="login">
-    // 	<h1>Login</h1>
-    //     <form method="post">
-    //     	<input type="text" name="u" placeholder="Username" required="required" />
-    //         <input type="password" name="p" placeholder="Password" required="required" />
-    //         <button type="submit" onClick={onH} class="btn btn-primary btn-block btn-large">Login</button>
-    //     </form>
-    // </div>
+    </div>
   );
 };

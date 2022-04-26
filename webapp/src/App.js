@@ -1,18 +1,18 @@
 import "./App.css";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import { Dashboard } from "./pages/response/dashboard";
+import { Dashboard } from "./pages/response/Dashboard";
 import Register from "./pages/Register";
 import { RegisterSuccess } from "./pages/response/RegisterSuccess";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { Upload } from "./pages/Upload";
+import { TempTable } from "./pages/TempTable";
 import { Home } from "./pages/Home";
-import { DataTable } from "./pages/DataTable";
-
+import ForgotPassword from "./pages/response/ForgotPassword";
+import Predictions from "./pages/Predictions";
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
       <Header />
       <Switch>
         <Route exact path="/" component={Home} />
@@ -20,11 +20,16 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/success" component={RegisterSuccess} />
-        <Route exact path="/upload" component={Upload} />
-        <Route exact path="/table" component={DataTable} />
+        <Route exact path="/temptable" component={TempTable} />
+        <Route exact path="/forgot" component={ForgotPassword} />
+        <Route exact path="/predict" component={Predictions} />
+        {/* <Route
+          exact path="/logout"
+          component={() => <Login message="User Logged Out Successfully." />}
+        /> */}
       </Switch>
       <Footer />
-    </BrowserRouter>
+    </Router>
   );
 }
 
