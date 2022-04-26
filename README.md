@@ -1,3 +1,4 @@
+
 # Temperature Web Application
 
 A web application that can visualize temperature data temperature over time with registration and login page
@@ -5,7 +6,6 @@ A web application that can visualize temperature data temperature over time with
 ## Built with
 
 - [React js](https://reactjs.org/)
-    - [Material-ui](https://mui.com/)
     - [Bootstrap](https://react-bootstrap.github.io/)
 - [Spring Boot](https://spring.io/projects/spring-boot)
     - [MySQL (Storing data)](https://spring.io/guides/gs/accessing-data-mysql/)
