@@ -1,8 +1,8 @@
 package com.example.temperaturebackend.service;
 
-import com.example.temperaturebackend.entity.AuthUser;
-import com.example.temperaturebackend.entity.AuthUserModel;
-import com.example.temperaturebackend.entity.VerificationToken;
+import com.example.temperaturebackend.entity.UserEntity;
+import com.example.temperaturebackend.entity.UserModelEntity;
+import com.example.temperaturebackend.entity.VerificationTokenEntity;
 import com.example.temperaturebackend.repository.AuthUserRepository;
 import com.example.temperaturebackend.repository.VerificationTokenRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -28,59 +28,63 @@ public class AuthUserServiceImpl implements AuthUserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public AuthUser registerAuthUser(AuthUserModel authUserModel) {
+    public UserEntity registerAuthUser(UserModelEntity userModelEntity) {
 
-        AuthUser authUser = new AuthUser();
-        authUser.setEmail(authUserModel.getEmail());
-        authUser.setUsername(authUserModel.getEmail());
-        authUser.setFirstName(authUserModel.getFirstName());
-        authUser.setLastName(authUserModel.getLastName());
-        authUser.setRole("USER");
-        authUser.setPassword(passwordEncoder.encode(authUserModel.getPassword()));
+        UserEntity userEntity = new UserEntity();
+        userEntity.setEmail(userModelEntity.getEmail());
+        userEntity.setUsername(userModelEntity.getEmail());
+        userEntity.setFirstName(userModelEntity.getFirstName());
+        userEntity.setLastName(userModelEntity.getLastName());
+        userEntity.setRole("USER");
+        userEntity.setPassword(passwordEncoder.encode(userModelEntity.getPassword()));
 
-        authUserRepository.save(authUser);
-        return authUser;
+        authUserRepository.save(userEntity);
+        return userEntity;
     }
 
     @Override
-    public void saveVerificationToken(String token, AuthUser authUser) {
-        VerificationToken verificationToken = new VerificationToken(authUser, token);
+    public void saveVerificationToken(String token, UserEntity userEntity) {
+        VerificationTokenEntity verificationTokenEntity = new VerificationTokenEntity(userEntity, token);
 
-        verificationTokenRepository.save(verificationToken);
+        verificationTokenRepository.save(verificationTokenEntity);
     }
 
     @Override
     public String validateVerificationToken(String token) {
-        VerificationToken verificationToken =
+        VerificationTokenEntity verificationTokenEntity =
                 verificationTokenRepository.findByToken(token);
 
         //if token doesnt not exist in the database
-        if (verificationToken == null) {
+        if (verificationTokenEntity == null) {
             return "Invalid Token!";
         }
 
-        AuthUser authUser = verificationToken.getAuthUser();
+        UserEntity userEntity = verificationTokenEntity.getUserEntity();
         Calendar cal = Calendar.getInstance();
 
         // delete token when it has expired
-        if (verificationToken.getExpiredTime().getTime() - cal.getTime().getTime() <= 0) {
-            verificationTokenRepository.delete(verificationToken);
+        if (verificationTokenEntity.getExpiredTime().getTime() - cal.getTime().getTime() <= 0) {
+            verificationTokenRepository.delete(verificationTokenEntity);
             LocalDateTime now = LocalDateTime.now();
             log.info(String.valueOf(now));
             return "expired";
         }
         //token is valid & yet to expire
-        authUser.setEnabled(true);
-        authUserRepository.save(authUser);
+        userEntity.setEnabled(true);
+        authUserRepository.save(userEntity);
         return "valid";
     }
 
     @Override
-    public VerificationToken generateNewToken(String token) {
-        VerificationToken verificationToken =
-                verificationTokenRepository.findByToken(token);
-        verificationToken.setToken(UUID.randomUUID().toString());
-        verificationTokenRepository.save(verificationToken);
-        return verificationToken;
+    public VerificationTokenEntity generateNewToken(String email) {
+
+        //Search existing token by email
+        VerificationTokenEntity verificationTokenEntity =
+                verificationTokenRepository.findTokenByEmail(email);
+
+        verificationTokenEntity.setToken(UUID.randomUUID().toString());
+        verificationTokenRepository.save(verificationTokenEntity);
+        return verificationTokenEntity;
     }
+
 }

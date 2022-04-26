@@ -1,15 +1,16 @@
 package com.example.temperaturebackend.service;
 
-import com.example.temperaturebackend.entity.AuthUser;
-import com.example.temperaturebackend.entity.AuthUserModel;
-import com.example.temperaturebackend.entity.VerificationToken;
+import com.example.temperaturebackend.entity.UserEntity;
+import com.example.temperaturebackend.entity.UserModelEntity;
+import com.example.temperaturebackend.entity.VerificationTokenEntity;
 
 public interface AuthUserService {
-    AuthUser registerAuthUser(AuthUserModel authUserModel);
+    UserEntity registerAuthUser(UserModelEntity userModelEntity);
 
-    void saveVerificationToken(String token, AuthUser authUser);
+    void saveVerificationToken(String token, UserEntity userEntity);
 
     String validateVerificationToken(String token);
 
-    VerificationToken generateNewToken(String token);
+    VerificationTokenEntity generateNewToken(String token);
+
 }

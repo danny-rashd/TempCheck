@@ -1,6 +1,6 @@
 package com.example.temperaturebackend.event;
 
-import com.example.temperaturebackend.entity.AuthUser;
+import com.example.temperaturebackend.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
@@ -9,12 +9,12 @@ import org.springframework.context.ApplicationEvent;
 @Setter
 public class RegistrationCompleteEvent extends ApplicationEvent {
 
-    private AuthUser authUser;
+    private UserEntity userEntity;
     private String applicationUrl;
 
-    public RegistrationCompleteEvent(AuthUser authUser, String applicationUrl) {
-        super(authUser);
-        this.authUser = authUser;
+    public RegistrationCompleteEvent(UserEntity userEntity, String applicationUrl) {
+        super(userEntity);
+        this.userEntity = userEntity;
         this.applicationUrl = applicationUrl;
     }
 }

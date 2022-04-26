@@ -7,10 +7,11 @@ import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 
-@Entity
+@Entity (name = "VerificationToken")
+@Table (name = "verification_token")
 @Data
 @NoArgsConstructor
-public class VerificationToken {
+public class VerificationTokenEntity {
 
     // Period of verification email
     private static final int EXPIRATION_TIME = 15;
@@ -21,21 +22,24 @@ public class VerificationToken {
     private String token;
     private Date expiredTime;
 
+    private String email;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "FK_USER_VERIFY_TOKEN"))
-    private AuthUser authUser;
+    private UserEntity userEntity;
 
-    public VerificationToken(AuthUser authUser, String token) {
+    public VerificationTokenEntity(UserEntity userEntity, String token) {
         super();
         this.token = token;
-        this.authUser = authUser;
+        this.userEntity = userEntity;
         this.expiredTime = calculateExpirationDate(EXPIRATION_TIME);
+        this.email = userEntity.getEmail();
     }
 
-    public VerificationToken(String token) {
+    public VerificationTokenEntity(String token) {
         super();
         this.token = token;
         this.expiredTime = calculateExpirationDate(EXPIRATION_TIME);
+        this.email = userEntity.getEmail();
     }
 
     private Date calculateExpirationDate(int expiredTime) {

@@ -1,6 +1,6 @@
 package com.example.temperaturebackend.details;
 
-import com.example.temperaturebackend.entity.AuthUser;
+import com.example.temperaturebackend.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,26 +11,26 @@ import java.util.Collections;
 public class AuthUserDetails implements UserDetails {
 
 
-    private AuthUser authUser;
+    private UserEntity userEntity;
 
-    public AuthUserDetails(AuthUser authUser) {
+    public AuthUserDetails(UserEntity userEntity) {
         super();
-        this.authUser = authUser;
+        this.userEntity = userEntity;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(authUser.getRole()));
+        return Collections.singleton(new SimpleGrantedAuthority(userEntity.getRole()));
     }
 
     @Override
     public String getPassword() {
-        return authUser.getPassword();
+        return userEntity.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return authUser.getUsername();
+        return userEntity.getUsername();
     }
 
     @Override
@@ -50,19 +50,19 @@ public class AuthUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return authUser.isEnabled();
+        return userEntity.isEnabled();
     }
 
     public String getFirstName() {
-        return authUser.getFirstName();
+        return userEntity.getFirstName();
     }
 
     public String getLastName() {
-        return authUser.getLastName();
+        return userEntity.getLastName();
     }
 
     public String getFullName() {
-        return authUser.getFirstName() + " " + authUser.getLastName();
+        return userEntity.getFirstName() + " " + userEntity.getLastName();
     }
 
 

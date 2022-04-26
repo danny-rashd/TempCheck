@@ -2,18 +2,16 @@ package com.example.temperaturebackend.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table (name = "auth_user")
 @Data
 @ToString
 @RequiredArgsConstructor
-public class AuthUser {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,8 +29,8 @@ public class AuthUser {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        AuthUser authUser = (AuthUser) o;
-        return id != null && Objects.equals(id, authUser.id);
+        UserEntity userEntity = (UserEntity) o;
+        return id != null && Objects.equals(id, userEntity.id);
     }
 
     @Override

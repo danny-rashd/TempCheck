@@ -6,18 +6,22 @@ import com.example.temperaturebackend.email.EmailValidator;
 import com.example.temperaturebackend.entity.*;
 import com.example.temperaturebackend.event.RegistrationCompleteEvent;
 import com.example.temperaturebackend.repository.AuthUserRepository;
+import com.example.temperaturebackend.repository.VerificationTokenRepository;
 import com.example.temperaturebackend.request.AuthenticationRequest;
 import com.example.temperaturebackend.response.UserResponse;
 import com.example.temperaturebackend.service.AuthUserService;
 
 import com.example.temperaturebackend.service.FileService;
 import lombok.extern.slf4j.Slf4j;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.ByteArrayResource;
@@ -56,6 +60,8 @@ public class AppController {
     @Autowired
     private AuthUserRepository authUserRepository;
 
+    @Autowired
+    private VerificationTokenRepository verificationTokenRepository;
 
     @Autowired
     private EmailSenderService emailSenderService;
@@ -68,24 +74,24 @@ public class AppController {
 
 
     @PostMapping("/register")
-    public String register(@RequestBody AuthUserModel authUserModel, final HttpServletRequest request) {
+    public String register(@RequestBody UserModelEntity userModelEntity, final HttpServletRequest request) {
         //Check if valid email
-        boolean isValidEmail = emailValidator.test(authUserModel.getEmail());
+        boolean isValidEmail = emailValidator.test(userModelEntity.getEmail());
         if (!isValidEmail) {
             throw new IllegalStateException("Invalid email!");
         }
 
         //Check if email exists
-        boolean userExists = authUserRepository.findByEmail(authUserModel.getEmail()).isPresent();
+        boolean userExists = authUserRepository.findByEmail(userModelEntity.getEmail()).isPresent();
         if (userExists) {
             throw new IllegalStateException("Email already taken!");
         }
 
-        AuthUser authUser = authUserService.registerAuthUser(authUserModel);
+        UserEntity userEntity = authUserService.registerAuthUser(userModelEntity);
 
         //create event to sent token to user in email
         eventPublisher.publishEvent(new RegistrationCompleteEvent(
-                authUser,
+                userEntity,
                 applicationUrl(request)
         ));
         return "success";
@@ -128,22 +134,23 @@ public class AppController {
     }
 
     @GetMapping("/resendToken")
-    public String getNewConfirmationEmail(@RequestParam("token") String token, HttpServletRequest request) {
-        VerificationToken verificationToken = authUserService.generateNewToken(token);
+    public String getNewConfirmationEmail(@RequestParam("email") String email, HttpServletRequest request) {
+        VerificationTokenEntity verificationTokenEntity = authUserService.generateNewToken(email);
 
-        AuthUser authUser = verificationToken.getAuthUser();
-        resendTokenEmail(authUser, applicationUrl(request), verificationToken);
+        UserEntity userEntity = verificationTokenEntity.getUserEntity();
+        resendTokenEmail(userEntity, applicationUrl(request), verificationTokenEntity);
         return "Sent verification link";
     }
 
-    private void resendTokenEmail(AuthUser authUser, String applicationUrl, VerificationToken verificationToken) {
+    private void resendTokenEmail(UserEntity userEntity, String applicationUrl, VerificationTokenEntity verificationTokenEntity) {
         String url = applicationUrl
-                + "api/v1/springboot/verifyRegistration?token="
-                + verificationToken.getToken();
+                + "/api/v1/springboot/verifyRegistration?token="
+                + verificationTokenEntity.getToken();
 
         //send verification email
-        log.info(authUser.getEmail());
-        emailSenderService.sendSimpleEmail(authUser.getEmail(), url);
+        log.info(userEntity.getEmail());
+        emailSenderService.sendSimpleEmail(userEntity.getEmail(), url);
+        log.info("NEW CONFIRMATION EMAIL HAS BEEN SENT");
         log.info("Click the link to verify your account: {}", url);
 
     }
@@ -153,19 +160,31 @@ public class AppController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.println("File Uploaded!");
-        return new ResponseEntity<>(fileService.addCSVFile(file), HttpStatus.OK);
+        return new ResponseEntity<>(fileService.uploadCSVFile(file), HttpStatus.OK);
     }
 
     @GetMapping("/download/{id}")
-    public ResponseEntity<ByteArrayResource> download(@PathVariable String id) throws IOException {
-        TextFile csvFile = fileService.downloadCSVFile(id);
+    public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String id) throws IOException {
+        FileEntity csvFileEntity = fileService.downloadCSVFile(id);
 
         return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType(csvFile.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + csvFile.getFilename() + "\"")
-                .body(new ByteArrayResource(csvFile.getFile()));
+                .contentType(MediaType.parseMediaType(csvFileEntity.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + csvFileEntity.getFilename() + "\"")
+                .body(new ByteArrayResource(csvFileEntity.getFile()));
     }
+
+    @GetMapping("/csv_info")
+    public ResponseEntity getFiles(@RequestParam("id") String id) throws IOException {
+        ObjectId objectId = new ObjectId(id);
+        Map<ObjectId, String> files = fileService.getFileById(objectId);
+        return ResponseEntity.ok(files);
+    }
+
+    public List<FileDataEntity> getAllFiles() throws IOException {
+        return fileService.getAllFiles();
+    }
+
 }
 

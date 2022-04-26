@@ -1,7 +1,7 @@
 package com.example.temperaturebackend.event;
 
 import com.example.temperaturebackend.email.EmailSenderService;
-import com.example.temperaturebackend.entity.AuthUser;
+import com.example.temperaturebackend.entity.UserEntity;
 import com.example.temperaturebackend.service.AuthUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +24,9 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
     public void onApplicationEvent(RegistrationCompleteEvent event) {
 
         //Create the verification token for user
-        AuthUser authUser = event.getAuthUser();
+        UserEntity userEntity = event.getUserEntity();
         String token = UUID.randomUUID().toString();
-        authUserService.saveVerificationToken(token, authUser);
+        authUserService.saveVerificationToken(token, userEntity);
 
         //Send mail to user
         String url = event.getApplicationUrl()
@@ -34,8 +34,8 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
                 + token;
 
         //send verification email
-        log.info(authUser.getEmail());
-        emailSenderService.sendSimpleEmail(authUser.getEmail(), url);
+        log.info(userEntity.getEmail());
+        emailSenderService.sendSimpleEmail(userEntity.getEmail(), url);
         log.info("Click the link to verify your account: {}", url);
 
 

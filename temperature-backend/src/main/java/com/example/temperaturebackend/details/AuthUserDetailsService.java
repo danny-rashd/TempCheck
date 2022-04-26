@@ -1,6 +1,6 @@
 package com.example.temperaturebackend.details;
 
-import com.example.temperaturebackend.entity.AuthUser;
+import com.example.temperaturebackend.entity.UserEntity;
 import com.example.temperaturebackend.repository.AuthUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,11 +16,11 @@ public class AuthUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AuthUser authUser = authUserRepository.findByUsername(username);
-        if (authUser == null) {
+        UserEntity userEntity = authUserRepository.findByUsername(username);
+        if (userEntity == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new AuthUserDetails(authUser);
+        return new AuthUserDetails(userEntity);
     }
 
 }
