@@ -11,7 +11,7 @@ import java.util.Collections;
 public class AuthUserDetails implements UserDetails {
 
 
-    private UserEntity userEntity;
+    private final UserEntity userEntity;
 
     public AuthUserDetails(UserEntity userEntity) {
         super();

@@ -30,7 +30,7 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
 
         //Send mail to user
         String url = event.getApplicationUrl()
-                + "/api/v1/springboot/verifyRegistration?token="
+                + "/api/v1/token-verify?token="
                 + token;
 
         //send verification email

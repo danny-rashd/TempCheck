@@ -10,19 +10,9 @@ import com.example.temperaturebackend.repository.VerificationTokenRepository;
 import com.example.temperaturebackend.request.AuthenticationRequest;
 import com.example.temperaturebackend.response.UserResponse;
 import com.example.temperaturebackend.service.AuthUserService;
-
 import com.example.temperaturebackend.service.FileService;
 import lombok.extern.slf4j.Slf4j;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.Principal;
-import java.security.spec.InvalidKeySpecException;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
@@ -38,11 +28,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
+import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 @Slf4j
 @RestController
 @CrossOrigin
-@RequestMapping(path = "api/v1/springboot")
+@RequestMapping(path = "api/v1")
 public class AppController {
 
     @Autowired
@@ -74,20 +69,20 @@ public class AppController {
 
 
     @PostMapping("/register")
-    public String register(@RequestBody UserModelEntity userModelEntity, final HttpServletRequest request) {
+    public String register(@RequestBody UserModel userModel, final HttpServletRequest request) {
         //Check if valid email
-        boolean isValidEmail = emailValidator.test(userModelEntity.getEmail());
+        boolean isValidEmail = emailValidator.test(userModel.getEmail());
         if (!isValidEmail) {
             throw new IllegalStateException("Invalid email!");
         }
 
         //Check if email exists
-        boolean userExists = authUserRepository.findByEmail(userModelEntity.getEmail()).isPresent();
+        boolean userExists = authUserRepository.findByEmail(userModel.getEmail()).isPresent();
         if (userExists) {
             throw new IllegalStateException("Email already taken!");
         }
 
-        UserEntity userEntity = authUserService.registerAuthUser(userModelEntity);
+        UserEntity userEntity = authUserService.registerAuthUser(userModel);
 
         //create event to sent token to user in email
         eventPublisher.publishEvent(new RegistrationCompleteEvent(
@@ -110,15 +105,15 @@ public class AppController {
         return ResponseEntity.ok(authUserDetails);
     }
 
-    @GetMapping("/verifyRegistration")
+    @GetMapping("/token-verify")
     public String getTokenConfirmation(@RequestParam("token") String token) {
         String result = authUserService.validateVerificationToken(token);
 
         // verify user when the verification link is clicked
         if (result.equalsIgnoreCase("valid")) {
-            return "User confirmed!".toString();
+            return "User confirmed!";
         }
-        return "Invalid confirmation email!".toString();
+        return "Invalid confirmation email!";
     }
 
     @GetMapping("/users")
@@ -133,7 +128,7 @@ public class AppController {
         return ResponseEntity.ok(userResponse);
     }
 
-    @GetMapping("/resendToken")
+    @GetMapping("/token-resend")
     public String getNewConfirmationEmail(@RequestParam("email") String email, HttpServletRequest request) {
         VerificationTokenEntity verificationTokenEntity = authUserService.generateNewToken(email);
 
@@ -144,7 +139,7 @@ public class AppController {
 
     private void resendTokenEmail(UserEntity userEntity, String applicationUrl, VerificationTokenEntity verificationTokenEntity) {
         String url = applicationUrl
-                + "/api/v1/springboot/verifyRegistration?token="
+                + "/api/v1/token-verify?token="
                 + verificationTokenEntity.getToken();
 
         //send verification email
@@ -175,13 +170,7 @@ public class AppController {
                 .body(new ByteArrayResource(csvFileEntity.getFile()));
     }
 
-    @GetMapping("/csv_info")
-    public ResponseEntity getFiles(@RequestParam("id") String id) throws IOException {
-        ObjectId objectId = new ObjectId(id);
-        Map<ObjectId, String> files = fileService.getFileById(objectId);
-        return ResponseEntity.ok(files);
-    }
-
+    @GetMapping("/files")
     public List<FileDataEntity> getAllFiles() throws IOException {
         return fileService.getAllFiles();
     }

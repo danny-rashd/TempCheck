@@ -1,7 +1,7 @@
 package com.example.temperaturebackend.service;
 
 import com.example.temperaturebackend.entity.UserEntity;
-import com.example.temperaturebackend.entity.UserModelEntity;
+import com.example.temperaturebackend.entity.UserModel;
 import com.example.temperaturebackend.entity.VerificationTokenEntity;
 import com.example.temperaturebackend.repository.AuthUserRepository;
 import com.example.temperaturebackend.repository.VerificationTokenRepository;
@@ -28,15 +28,15 @@ public class AuthUserServiceImpl implements AuthUserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public UserEntity registerAuthUser(UserModelEntity userModelEntity) {
+    public UserEntity registerAuthUser(UserModel userModel) {
 
         UserEntity userEntity = new UserEntity();
-        userEntity.setEmail(userModelEntity.getEmail());
-        userEntity.setUsername(userModelEntity.getEmail());
-        userEntity.setFirstName(userModelEntity.getFirstName());
-        userEntity.setLastName(userModelEntity.getLastName());
+        userEntity.setEmail(userModel.getEmail());
+        userEntity.setUsername(userModel.getEmail());
+        userEntity.setFirstName(userModel.getFirstName());
+        userEntity.setLastName(userModel.getLastName());
         userEntity.setRole("USER");
-        userEntity.setPassword(passwordEncoder.encode(userModelEntity.getPassword()));
+        userEntity.setPassword(passwordEncoder.encode(userModel.getPassword()));
 
         authUserRepository.save(userEntity);
         return userEntity;

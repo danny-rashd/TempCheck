@@ -7,8 +7,8 @@ import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 
-@Entity (name = "VerificationToken")
-@Table (name = "verification_token")
+@Entity(name = "VerificationToken")
+@Table(name = "verification_token")
 @Data
 @NoArgsConstructor
 public class VerificationTokenEntity {

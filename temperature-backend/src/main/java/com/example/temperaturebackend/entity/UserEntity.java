@@ -1,13 +1,15 @@
 package com.example.temperaturebackend.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table (name = "auth_user")
+@Table(name = "auth_user")
 @Data
 @ToString
 @RequiredArgsConstructor

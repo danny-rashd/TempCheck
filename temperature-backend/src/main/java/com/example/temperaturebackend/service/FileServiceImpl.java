@@ -1,7 +1,7 @@
 package com.example.temperaturebackend.service;
 
-import com.example.temperaturebackend.entity.FileEntity;
 import com.example.temperaturebackend.entity.FileDataEntity;
+import com.example.temperaturebackend.entity.FileEntity;
 import com.example.temperaturebackend.repository.FileRepository;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -41,7 +41,12 @@ public class FileServiceImpl implements FileService {
         DBObject metadata = new BasicDBObject();
         metadata.put("fileSize", upload.getSize());
 
-        Object fileID = gridFsTemplate.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(), metadata);
+        ObjectId fileID = gridFsTemplate.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(), metadata);
+        FileDataEntity fileDataEntity = new FileDataEntity();
+        fileDataEntity.setObjectId(String.valueOf(fileID));
+        fileDataEntity.setFilename(upload.getOriginalFilename());
+        fileRepository.save(fileDataEntity);
+
 
         return fileID.toString();
     }
@@ -61,11 +66,8 @@ public class FileServiceImpl implements FileService {
             fileEntity.setFileSize(gridFSFile.getMetadata().get("fileSize").toString());
             fileEntity.setFile(IOUtils.toByteArray(gridFsOperations.getResource(gridFSFile).getInputStream()));
 
-            // store data in mysql
         }
-        fileDataEntity.setObjectId(String.valueOf(gridFSFile.getObjectId()));
-        fileDataEntity.setFilename(gridFSFile.getFilename());
-        fileRepository.save(fileDataEntity);
+
         return fileEntity;
     }
 

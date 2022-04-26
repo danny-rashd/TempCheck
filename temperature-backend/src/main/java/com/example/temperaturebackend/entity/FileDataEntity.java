@@ -2,10 +2,8 @@ package com.example.temperaturebackend.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
 
 import javax.persistence.*;
-import java.util.Date;
 
 //store data in MySQL
 @Entity
