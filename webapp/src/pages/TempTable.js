@@ -14,7 +14,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import filterFactory, { numberFilter, dateFilter } from "react-bootstrap-table2-filter";
+import filterFactory, {
+  numberFilter,
+  dateFilter,
+} from "react-bootstrap-table2-filter";
 import ToolkitProvider from "react-bootstrap-table2-toolkit";
 import "react-bootstrap-table2-filter/dist/react-bootstrap-table2-filter.min.css";
 import "react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css";
@@ -71,7 +74,7 @@ export const TempTable = () => {
       dataField: "A",
       text: "A",
       sort: true,
-      headerAlign: 'center',
+      headerAlign: "center",
       headerAttrs: {
         hidden: false,
       },
@@ -80,7 +83,7 @@ export const TempTable = () => {
       dataField: "Epoch",
       text: "Epoch",
       sort: true,
-      headerAlign: 'center',
+      headerAlign: "center",
       headerAttrs: {
         hidden: false,
       },
@@ -98,7 +101,7 @@ export const TempTable = () => {
     {
       dataField: "Datetime",
       text: "Datetime",
-      headerAlign: 'center',
+      headerAlign: "center",
       sort: true,
       filter: dateFilter({
         getFilter: (filter) => {

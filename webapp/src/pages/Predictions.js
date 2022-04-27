@@ -13,6 +13,7 @@ import {
   faRainbow,
   faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
+
 function Predictions() {
   return (
     <Container id="main-container" className="h-50 w-100">
@@ -48,10 +49,6 @@ function Predictions() {
         <Card.Footer className="text-center">Predictions :</Card.Footer>
       </Card>
     </Container>
-    // <Container id="main-container" className="d-grid h-50">
-    //   <Form id="sign-in-form" className="text-center p-2 w-100"></Form>
-
-    // </Container>
   );
 }
 export default Predictions;

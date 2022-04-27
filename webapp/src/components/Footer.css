@@ -1,4 +1,4 @@
-/* Ganeral Style */
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,10 +14,8 @@ div {
   align-items: center;
   border: 1px solid darkturquoise;
 }
-/* Style for solution */
 .content {
-  min-height: calc(100vh - 200px); /* header + footer = 200px */
-  /*height: 800px;*/ /* To test if the content extend over the page */
+  min-height: calc(100vh - 200px); 
 }
 .footer {
 }
