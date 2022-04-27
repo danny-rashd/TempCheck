@@ -7,10 +7,10 @@ If you want to learn more about Spring Boot, please visit its website: https://s
 ## API Documentation
 
 ### REST API
-<img src="public/swagger_api.png" alt="Logo" width="450" height="250">
+<img src="public/swagger_api.png" alt="Logo" width="543" height="282">
 
 ### Models
-<img src="public/swagger_model.png" alt="Logo" width="450" height="250">
+<img src="public/swagger_model.png" alt="Logo" width="543" height="282">
 
 
 ## Related Guides
