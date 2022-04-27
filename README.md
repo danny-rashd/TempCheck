@@ -135,7 +135,7 @@ Dataset can be downloaded [here](https://drive.google.com/drive/folders/1fC2uZmP
 
 <img src="webapp/public/demo_4_uploaddata.gif" alt="Logo" width="450" height="250">
 
-### Load CSV data into table and export as CSV 
+### Load CSV data into table, filter data and export as CSV 
 
 <img src="webapp/public/demo_5_loadexport.gif" alt="Logo" width="450" height="250">
 
