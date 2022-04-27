@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import { Container, Card, Form, InputGroup, Button } from "react-bootstrap";
 import "./home.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faRainbow,
-  faCalculator,
-} from "@fortawesome/free-solid-svg-icons";
+import { faRainbow, faCalculator } from "@fortawesome/free-solid-svg-icons";
 
 function Predictions() {
   const [date, setDate] = useState(null);

@@ -23,10 +23,6 @@ function App() {
         <Route exact path="/temptable" component={TempTable} />
         <Route exact path="/forgot" component={ForgotPassword} />
         <Route exact path="/predict" component={Predictions} />
-        {/* <Route
-          exact path="/logout"
-          component={() => <Login message="User Logged Out Successfully." />}
-        /> */}
       </Switch>
       <Footer />
     </Router>
