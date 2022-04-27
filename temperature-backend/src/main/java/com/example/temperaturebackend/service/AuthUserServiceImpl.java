@@ -51,10 +51,9 @@ public class AuthUserServiceImpl implements AuthUserService {
 
     @Override
     public String validateVerificationToken(String token) {
-        VerificationTokenEntity verificationTokenEntity =
-                verificationTokenRepository.findByToken(token);
+        VerificationTokenEntity verificationTokenEntity = verificationTokenRepository.findByToken(token);
 
-        //if token doesnt not exist in the database
+        // if token doesnt not exist in the database
         if (verificationTokenEntity == null) {
             return "Invalid Token!";
         }
@@ -69,7 +68,7 @@ public class AuthUserServiceImpl implements AuthUserService {
             log.info(String.valueOf(now));
             return "expired";
         }
-        //token is valid & yet to expire
+        // token is valid & yet to expire
         userEntity.setEnabled(true);
         authUserRepository.save(userEntity);
         return "valid";
@@ -78,9 +77,8 @@ public class AuthUserServiceImpl implements AuthUserService {
     @Override
     public VerificationTokenEntity generateNewToken(String email) {
 
-        //Search existing token by email
-        VerificationTokenEntity verificationTokenEntity =
-                verificationTokenRepository.findTokenByEmail(email);
+        // Search existing token by email
+        VerificationTokenEntity verificationTokenEntity = verificationTokenRepository.findTokenByEmail(email);
 
         verificationTokenEntity.setToken(UUID.randomUUID().toString());
         verificationTokenRepository.save(verificationTokenEntity);

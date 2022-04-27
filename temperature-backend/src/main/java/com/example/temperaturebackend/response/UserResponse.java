@@ -6,7 +6,6 @@ public class UserResponse {
     private String lastName;
     private String username;
 
-
     public String getFirstName() {
 
         return firstName;
@@ -33,6 +32,5 @@ public class UserResponse {
     public void setUsername(String username) {
         this.username = username;
     }
-
 
 }

@@ -10,7 +10,6 @@ import java.util.Collections;
 
 public class AuthUserDetails implements UserDetails {
 
-
     private final UserEntity userEntity;
 
     public AuthUserDetails(UserEntity userEntity) {
@@ -64,6 +63,5 @@ public class AuthUserDetails implements UserDetails {
     public String getFullName() {
         return userEntity.getFirstName() + " " + userEntity.getLastName();
     }
-
 
 }

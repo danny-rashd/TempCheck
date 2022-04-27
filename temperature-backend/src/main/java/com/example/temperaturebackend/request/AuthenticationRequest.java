@@ -1,6 +1,5 @@
 package com.example.temperaturebackend.request;
 
-
 public class AuthenticationRequest {
 
     private String username;

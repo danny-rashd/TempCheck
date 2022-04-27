@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 @Service
 public class FileServiceImpl implements FileService {
 
@@ -41,12 +40,12 @@ public class FileServiceImpl implements FileService {
         DBObject metadata = new BasicDBObject();
         metadata.put("fileSize", upload.getSize());
 
-        ObjectId fileID = gridFsTemplate.store(upload.getInputStream(), upload.getOriginalFilename(), upload.getContentType(), metadata);
+        ObjectId fileID = gridFsTemplate.store(upload.getInputStream(), upload.getOriginalFilename(),
+                upload.getContentType(), metadata);
         FileDataEntity fileDataEntity = new FileDataEntity();
         fileDataEntity.setObjectId(String.valueOf(fileID));
         fileDataEntity.setFilename(upload.getOriginalFilename());
         fileRepository.save(fileDataEntity);
-
 
         return fileID.toString();
     }
@@ -60,7 +59,7 @@ public class FileServiceImpl implements FileService {
         FileDataEntity fileDataEntity = new FileDataEntity();
 
         if (gridFSFile != null && gridFSFile.getMetadata() != null) {
-            //store in mongodb
+            // store in mongodb
             fileEntity.setFilename(gridFSFile.getFilename());
             fileEntity.setFileType(gridFSFile.getMetadata().get("_contentType").toString());
             fileEntity.setFileSize(gridFSFile.getMetadata().get("fileSize").toString());
@@ -73,8 +72,10 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Map<ObjectId, String> getFileById(ObjectId id) {
-        List<GridFSFile> gridFSFile = Collections.singletonList(gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id))));
-        return gridFSFile.stream().collect(Collectors.toMap(d -> new ObjectId(String.valueOf(d.getObjectId())), d -> d.getFilename()));
+        List<GridFSFile> gridFSFile = Collections
+                .singletonList(gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id))));
+        return gridFSFile.stream()
+                .collect(Collectors.toMap(d -> new ObjectId(String.valueOf(d.getObjectId())), d -> d.getFilename()));
     }
 
     @Override
@@ -83,80 +84,3 @@ public class FileServiceImpl implements FileService {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

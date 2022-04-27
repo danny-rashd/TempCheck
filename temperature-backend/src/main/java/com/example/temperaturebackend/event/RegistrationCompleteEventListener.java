@@ -23,21 +23,20 @@ public class RegistrationCompleteEventListener implements ApplicationListener<Re
     @Override
     public void onApplicationEvent(RegistrationCompleteEvent event) {
 
-        //Create the verification token for user
+        // Create the verification token for user
         UserEntity userEntity = event.getUserEntity();
         String token = UUID.randomUUID().toString();
         authUserService.saveVerificationToken(token, userEntity);
 
-        //Send mail to user
+        // Send mail to user
         String url = event.getApplicationUrl()
                 + "/api/v1/token-verify?token="
                 + token;
 
-        //send verification email
+        // send verification email
         log.info(userEntity.getEmail());
         emailSenderService.sendSimpleEmail(userEntity.getEmail(), url);
         log.info("Click the link to verify your account: {}", url);
-
 
     }
 }

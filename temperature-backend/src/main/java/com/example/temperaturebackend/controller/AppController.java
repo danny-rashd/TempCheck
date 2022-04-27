@@ -69,18 +69,17 @@ public class AppController {
     @Autowired
     private FileService fileService;
 
-
     @ApiOperation(value = "Create new user account")
-    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
+    @ApiResponses(value = { @ApiResponse(code = 500, message = "Internal server error") })
     @PostMapping("/register")
     public String register(@RequestBody UserModel userModel, final HttpServletRequest request) {
-        //Check if valid email
+        // Check if valid email
         boolean isValidEmail = emailValidator.test(userModel.getEmail());
         if (!isValidEmail) {
             throw new IllegalStateException("Invalid email!");
         }
 
-        //Check if email exists
+        // Check if email exists
         boolean userExists = authUserRepository.findByEmail(userModel.getEmail()).isPresent();
         if (userExists) {
             throw new IllegalStateException("Email already taken!");
@@ -88,21 +87,22 @@ public class AppController {
 
         UserEntity userEntity = authUserService.registerAuthUser(userModel);
 
-        //create event to sent token to user in email
+        // create event to sent token to user in email
         eventPublisher.publishEvent(new RegistrationCompleteEvent(
                 userEntity,
-                applicationUrl(request)
-        ));
+                applicationUrl(request)));
         return "success";
     }
 
     @ApiOperation(value = "Sign in user account")
-    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
+    @ApiResponses(value = { @ApiResponse(code = 500, message = "Internal server error") })
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest)
+            throws InvalidKeySpecException, NoSuchAlgorithmException {
 
-        final Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getUsername(), authenticationRequest.getPassword()));
+        final Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
+                        authenticationRequest.getUsername(), authenticationRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -112,10 +112,10 @@ public class AppController {
     }
 
     @ApiOperation(value = "Get token confirmation")
-    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
+    @ApiResponses(value = { @ApiResponse(code = 500, message = "Internal server error") })
     @GetMapping("/token-verify")
-    public String getTokenConfirmation(@ApiParam(value = "Confirmation token to enable user authentication",
-            type = "String", required = true) @RequestParam("token") String token) {
+    public String getTokenConfirmation(
+            @ApiParam(value = "Confirmation token to enable user authentication", type = "String", required = true) @RequestParam("token") String token) {
         String result = authUserService.validateVerificationToken(token);
 
         // verify user when the verification link is clicked
@@ -126,10 +126,11 @@ public class AppController {
     }
 
     @ApiOperation(value = "Get new confirmation email")
-    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
+    @ApiResponses(value = { @ApiResponse(code = 500, message = "Internal server error") })
     @GetMapping("/token-resend")
-    public String getNewConfirmationEmail(@ApiParam(value = "User's email to resend confirmation email to",
-            type = "String", required = true) @RequestParam("email") String email, HttpServletRequest request) {
+    public String getNewConfirmationEmail(
+            @ApiParam(value = "User's email to resend confirmation email to", type = "String", required = true) @RequestParam("email") String email,
+            HttpServletRequest request) {
         VerificationTokenEntity verificationTokenEntity = authUserService.generateNewToken(email);
 
         UserEntity userEntity = verificationTokenEntity.getUserEntity();
@@ -137,12 +138,13 @@ public class AppController {
         return "Sent verification link";
     }
 
-    private void resendTokenEmail(UserEntity userEntity, String applicationUrl, VerificationTokenEntity verificationTokenEntity) {
+    private void resendTokenEmail(UserEntity userEntity, String applicationUrl,
+            VerificationTokenEntity verificationTokenEntity) {
         String url = applicationUrl
                 + "/api/v1/token-verify?token="
                 + verificationTokenEntity.getToken();
 
-        //send verification email
+        // send verification email
         log.info(userEntity.getEmail());
         emailSenderService.sendSimpleEmail(userEntity.getEmail(), url);
         log.info("NEW CONFIRMATION EMAIL HAS BEEN SENT");
@@ -154,18 +156,18 @@ public class AppController {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 
-
     @ApiOperation(value = "Upload file to database")
-    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
+    @ApiResponses(value = { @ApiResponse(code = 500, message = "Internal server error") })
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadFile(@ApiParam(value = "File to be uploaded to the database",
-            type = "String", required = true) @RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> uploadFile(
+            @ApiParam(value = "File to be uploaded to the database", type = "String", required = true) @RequestParam("file") MultipartFile file)
+            throws IOException {
         System.out.println("File Uploaded!");
         return new ResponseEntity<>(fileService.uploadCSVFile(file), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Get file from MongoDB")
-    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
+    @ApiResponses(value = { @ApiResponse(code = 500, message = "Internal server error") })
     @GetMapping("/download/{id}")
     public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String id) throws IOException {
         FileEntity csvFileEntity = fileService.downloadCSVFile(id);
@@ -177,11 +179,10 @@ public class AppController {
     }
 
     @ApiOperation(value = "Get all information of uploaded files")
-    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
+    @ApiResponses(value = { @ApiResponse(code = 500, message = "Internal server error") })
     @GetMapping("/files")
     public List<FileDataEntity> getAllFiles() throws IOException {
         return fileService.getAllFiles();
     }
 
 }
-

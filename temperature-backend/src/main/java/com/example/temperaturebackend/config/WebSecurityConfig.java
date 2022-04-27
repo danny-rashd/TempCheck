@@ -63,14 +63,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-//    @Bean
-//    public Docket temperatureBackendAPI() {
-//
-//        return new Docket(DocumentationType.SWAGGER_2)
-//                .select()
-//                .apis(RequestHandlerSelectors.basePackage("com.example.temperaturebackend.controller"))
-//                .paths(regex("/api/v1/.*"))
-//                .build();
-//    }
+    // @Bean
+    // public Docket temperatureBackendAPI() {
+    //
+    // return new Docket(DocumentationType.SWAGGER_2)
+    // .select()
+    // .apis(RequestHandlerSelectors.basePackage("com.example.temperaturebackend.controller"))
+    // .paths(regex("/api/v1/.*"))
+    // .build();
+    // }
 
 }
