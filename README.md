@@ -131,11 +131,11 @@ Dataset can be downloaded [here](https://drive.google.com/drive/folders/1fC2uZmP
 
 <img src="webapp/public/demo_3_login.gif" alt="Logo" width="450" height="250">
 
-### Upload file
+### Upload CSV file
 
 <img src="webapp/public/demo_4_uploaddata.gif" alt="Logo" width="450" height="250">
 
-### Upload file
+### Load CSV data into table and export as CSV 
 
 <img src="webapp/public/demo_5_loadexport.gif" alt="Logo" width="450" height="250">
 
