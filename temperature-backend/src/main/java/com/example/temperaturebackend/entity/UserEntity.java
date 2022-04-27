@@ -1,5 +1,6 @@
 package com.example.temperaturebackend.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

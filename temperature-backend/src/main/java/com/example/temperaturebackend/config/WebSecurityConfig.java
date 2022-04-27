@@ -14,6 +14,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+
+import static springfox.documentation.builders.PathSelectors.regex;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +26,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthUserDetailsService authUserDetailsService;
-
 
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
@@ -58,5 +62,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors().and().headers().frameOptions().disable();
 
     }
+
+//    @Bean
+//    public Docket temperatureBackendAPI() {
+//
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                .select()
+//                .apis(RequestHandlerSelectors.basePackage("com.example.temperaturebackend.controller"))
+//                .paths(regex("/api/v1/.*"))
+//                .build();
+//    }
 
 }

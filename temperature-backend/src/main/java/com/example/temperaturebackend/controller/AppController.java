@@ -8,9 +8,10 @@ import com.example.temperaturebackend.event.RegistrationCompleteEvent;
 import com.example.temperaturebackend.repository.AuthUserRepository;
 import com.example.temperaturebackend.repository.VerificationTokenRepository;
 import com.example.temperaturebackend.request.AuthenticationRequest;
-import com.example.temperaturebackend.response.UserResponse;
 import com.example.temperaturebackend.service.AuthUserService;
 import com.example.temperaturebackend.service.FileService;
+import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -30,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.security.Principal;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
@@ -38,6 +38,8 @@ import java.util.List;
 @RestController
 @CrossOrigin
 @RequestMapping(path = "api/v1")
+@Tag(name = "Temperature web application")
+@Api(tags = "Temperature web application")
 public class AppController {
 
     @Autowired
@@ -68,6 +70,8 @@ public class AppController {
     private FileService fileService;
 
 
+    @ApiOperation(value = "Create new user account")
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
     @PostMapping("/register")
     public String register(@RequestBody UserModel userModel, final HttpServletRequest request) {
         //Check if valid email
@@ -92,6 +96,8 @@ public class AppController {
         return "success";
     }
 
+    @ApiOperation(value = "Sign in user account")
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
 
@@ -105,8 +111,11 @@ public class AppController {
         return ResponseEntity.ok(authUserDetails);
     }
 
+    @ApiOperation(value = "Get token confirmation")
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
     @GetMapping("/token-verify")
-    public String getTokenConfirmation(@RequestParam("token") String token) {
+    public String getTokenConfirmation(@ApiParam(value = "Confirmation token to enable user authentication",
+            type = "String", required = true) @RequestParam("token") String token) {
         String result = authUserService.validateVerificationToken(token);
 
         // verify user when the verification link is clicked
@@ -116,20 +125,11 @@ public class AppController {
         return "Invalid confirmation email!";
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<?> getUserResponse(Principal user) {
-        AuthUserDetails userObj = (AuthUserDetails) userDetailsService.loadUserByUsername(user.getName());
-
-        UserResponse userResponse = new UserResponse();
-        userResponse.setFirstName(userObj.getFirstName());
-        userResponse.setLastName(userObj.getLastName());
-        userResponse.setUsername(userObj.getUsername());
-
-        return ResponseEntity.ok(userResponse);
-    }
-
+    @ApiOperation(value = "Get new confirmation email")
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
     @GetMapping("/token-resend")
-    public String getNewConfirmationEmail(@RequestParam("email") String email, HttpServletRequest request) {
+    public String getNewConfirmationEmail(@ApiParam(value = "User's email to resend confirmation email to",
+            type = "String", required = true) @RequestParam("email") String email, HttpServletRequest request) {
         VerificationTokenEntity verificationTokenEntity = authUserService.generateNewToken(email);
 
         UserEntity userEntity = verificationTokenEntity.getUserEntity();
@@ -154,12 +154,18 @@ public class AppController {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 
+
+    @ApiOperation(value = "Upload file to database")
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
     @PostMapping("/upload")
-    public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<?> uploadFile(@ApiParam(value = "File to be uploaded to the database",
+            type = "String", required = true) @RequestParam("file") MultipartFile file) throws IOException {
         System.out.println("File Uploaded!");
         return new ResponseEntity<>(fileService.uploadCSVFile(file), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Get file from MongoDB")
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
     @GetMapping("/download/{id}")
     public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable String id) throws IOException {
         FileEntity csvFileEntity = fileService.downloadCSVFile(id);
@@ -170,6 +176,8 @@ public class AppController {
                 .body(new ByteArrayResource(csvFileEntity.getFile()));
     }
 
+    @ApiOperation(value = "Get all information of uploaded files")
+    @ApiResponses(value = {@ApiResponse(code = 500, message = "Internal server error")})
     @GetMapping("/files")
     public List<FileDataEntity> getAllFiles() throws IOException {
         return fileService.getAllFiles();
