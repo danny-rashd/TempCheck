@@ -61,16 +61,16 @@ const Login = ({ loading, error, ...props }) => {
 
   return (
     <div className="container-fluid ps-md-0">
-      <div class="row g-0">
-        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image">
-          <div class="overlay-container">
-            <div class="overlay">
-              <div class="overlay-panel overlay-left">
+      <div className="row g-0">
+        <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image">
+          <div className="overlay-container">
+            <div className="overlay">
+              <div className="overlay-panel overlay-left">
                 <h1>First time?</h1>
                 <p></p>
                 <h4>Sign Up and explore this web app</h4>
                 <Button
-                  class="btn btn-lg btn-dark btn-login fw-bold ghost zmb-2"
+                  className="btn btn-lg btn-dark btn-login fw-bold ghost zmb-2"
                   id="signUp"
                   href="/register"
                 >
@@ -80,27 +80,26 @@ const Login = ({ loading, error, ...props }) => {
             </div>
           </div>
         </div>
-        <div class="col-md-8 col-lg-6">
-          <div class="login d-flex align-items-center py-5">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-9 col-lg-8 mx-auto">
-                  <h3 class="login-heading mb-2">Welcome back!</h3>
+        <div className="col-md-8 col-lg-6">
+          <div className="login d-flex align-items-center py-5">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-9 col-lg-8 mx-auto">
+                  <h3 className="login-heading mb-2">Welcome back!</h3>
                   <img
                     className="mb-2 bootstrap-logo"
                     src="https://icons.getbootstrap.com/assets/icons/rainbow.svg"
                     alt="Bootstrap 5"
-                    s
                   />
                   <Form
                     id="sign-in-form"
                     onSubmit={handleSubmit}
                     noValidate={false}
                   >
-                    <div class="form-floating mb-2">
-                      <div class="input-group mb-2">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">
+                    <div className="form-floating mb-2">
+                      <div className="input-group mb-2">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text" id="basic-addon1">
                             <FontAwesomeIcon icon={faEnvelope} />
                           </span>
                         </div>
@@ -119,10 +118,10 @@ const Login = ({ loading, error, ...props }) => {
                       </div>
                     </div>
 
-                    <div class="form-floating mb-2">
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">
+                    <div className="form-floating mb-2">
+                      <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text" id="basic-addon1">
                             <FontAwesomeIcon icon={faLock} />
                           </span>
                         </div>
@@ -139,7 +138,7 @@ const Login = ({ loading, error, ...props }) => {
                         />
                       </div>
                     </div>
-                    <div class="d-grid">
+                    <div className="d-grid">
                       <Button
                         variant="primary"
                         type="submit"
@@ -160,7 +159,7 @@ const Login = ({ loading, error, ...props }) => {
                       </Button>
                     </div>
                     <div>
-                      <a class="medium" href="/forgot">
+                      <a className="medium" href="/forgot">
                         Forgot password?
                       </a>
                     </div>

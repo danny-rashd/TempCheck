@@ -29,3 +29,4 @@ replay_pid*
 # target folders
 temperature-backend/target
 temperature-model/target
+.vscode/settings.json

@@ -85,9 +85,9 @@ export const RegisterSuccess = (props) => {
           <Form onSubmit={handleSubmit}>
             <Modal.Body>
               {" "}
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text" id="basic-addon1">
                     <FontAwesomeIcon icon={faEnvelope} />
                   </span>
                 </div>

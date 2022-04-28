@@ -5,13 +5,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRainbow, faCalculator } from "@fortawesome/free-solid-svg-icons";
 
 function Predictions() {
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState("");
   const [temperature, setTemperature] = useState(0);
   const MIN_TEMP = 12.76;
   const MAX_TEMP = 42;
 
   const handleSubmit = (evt) => {
-    if (date != null) {
+    if (date !=="") {
       evt.preventDefault();
       console.log("DATE", date);
       const randomNumber = (

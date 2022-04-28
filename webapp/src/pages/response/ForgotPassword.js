@@ -11,9 +11,9 @@ function ForgotPassword() {
         <Card.Body>
           <Card.Text>
             Enter your email address{" "}
-            <div class="input-group mt-2">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">
+            <div className="input-group mt-2">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="basic-addon1">
                   <FontAwesomeIcon icon={faEnvelope} />
                 </span>
               </div>

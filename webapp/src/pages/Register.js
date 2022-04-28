@@ -67,13 +67,13 @@ const Register = ({ loading, error, ...props }) => {
 
   return (
     <div className="container-fluid ps-md-0">
-      <div class="row g-0">
-        <div class="col-md-8 col-lg-6">
-          <div class="login d-flex align-items-center py-5">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-9 col-lg-8 mx-auto">
-                  <h2 class="login-heading mb-2">Create an account</h2>
+      <div className="row g-0">
+        <div className="col-md-8 col-lg-6">
+          <div className="login d-flex align-items-center py-5">
+            <div className="container">
+              <div className="row">
+                <div className="col-md-9 col-lg-8 mx-auto">
+                  <h2 className="login-heading mb-2">Create an account</h2>
                   <img
                     className="mb-2 bootstrap-logo"
                     src="https://icons.getbootstrap.com/assets/icons/rainbow.svg"
@@ -84,10 +84,10 @@ const Register = ({ loading, error, ...props }) => {
                     onSubmit={handleSubmit}
                     noValidate={false}
                   >
-                    <div class="form-floating mb-1">
-                      <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">
+                    <div className="form-floating mb-1">
+                      <div className="input-group mb-1">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text" id="basic-addon1">
                             <FontAwesomeIcon icon={faEnvelope} />
                           </span>
                         </div>
@@ -106,10 +106,10 @@ const Register = ({ loading, error, ...props }) => {
                       </div>
                     </div>
 
-                    <div class="form-floating mb-1">
-                      <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">
+                    <div className="form-floating mb-1">
+                      <div className="input-group mb-1">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text" id="basic-addon1">
                             <FontAwesomeIcon icon={faIdBadge} />
                           </span>
                         </div>
@@ -127,10 +127,10 @@ const Register = ({ loading, error, ...props }) => {
                         />
                       </div>
                     </div>
-                    <div class="form-floating mb-1">
-                      <div class="input-group mb-1">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">
+                    <div className="form-floating mb-1">
+                      <div className="input-group mb-1">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text" id="basic-addon1">
                             <FontAwesomeIcon icon={faIdBadge} />
                           </span>
                         </div>
@@ -148,10 +148,10 @@ const Register = ({ loading, error, ...props }) => {
                         />
                       </div>
                     </div>
-                    <div class="form-floating mb-3">
-                      <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="basic-addon1">
+                    <div className="form-floating mb-3">
+                      <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text" id="basic-addon1">
                             <FontAwesomeIcon icon={faLock} />
                           </span>
                         </div>
@@ -169,7 +169,7 @@ const Register = ({ loading, error, ...props }) => {
                       </div>
                     </div>
 
-                    <div class="d-grid">
+                    <div className="d-grid">
                       <Button
                         variant="primary"
                         type="submit"
@@ -203,10 +203,10 @@ const Register = ({ loading, error, ...props }) => {
             </div>
           </div>
         </div>
-        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image">
-          <div class="overlay-container">
-            <div class="overlay">
-              <div class="overlay-panel overlay-left">
+        <div className="d-none d-md-flex col-md-4 col-lg-6 bg-image">
+          <div className="overlay-container">
+            <div className="overlay">
+              <div className="overlay-panel overlay-left">
                 <h3>Already have an account?</h3>
                 <Button
                   className="btn btn-lg btn-dark btn-login fw-bold ghost zmb-2"

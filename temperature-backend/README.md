@@ -13,6 +13,12 @@ If you want to learn more about Spring Boot, please visit its website: https://s
 <img src="public/swagger_model.png" alt="Logo" width="814" height="423">
 
 
+## Database 
+
+### MySQL    Schema
+<img src="public/mysql_schema.png" alt="Logo" width="390" height="472">
+
+
 ## Related Guides
 
 - Building REST services with Spring([guide](https://spring.io/guides/tutorials/rest/))

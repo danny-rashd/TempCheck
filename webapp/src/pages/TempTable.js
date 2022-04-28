@@ -194,11 +194,11 @@ export const TempTable = () => {
             </Card.Header>
             <ListGroup className="list-group-flush mt-3 mb-3">
               <ol>
-                <p class="text-info">
+                <p className="text-info">
                   Click the button to insert the data in the table below
                 </p>
                 {post.map((file) => (
-                  <li>
+                  <li key={file.filename}>
                     <Button onClick={() => handleClick(file.objectId)}>
                       <strong>{file.filename}</strong>
                     </Button>
