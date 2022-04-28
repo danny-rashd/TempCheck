@@ -15,7 +15,7 @@ If you want to learn more about Spring Boot, please visit its website: https://s
 
 ## Database 
 
-### MySQL    Schema
+### MySQL Schema
 <img src="public/mysql_schema.png" alt="Logo" width="390" height="472">
 
 
