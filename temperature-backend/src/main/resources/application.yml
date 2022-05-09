@@ -27,7 +27,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: tempcheck.spring@gmail.com
-    password: dsmyfmphukywrsia
+    password: gktsmcfaotowuocw
     properties:
       mail:
         smtp:

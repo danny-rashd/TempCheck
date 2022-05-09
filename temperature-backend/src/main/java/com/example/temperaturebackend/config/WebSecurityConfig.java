@@ -25,16 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.inMemoryAuthentication().withUser("Danny").password(passwordEncoder().encode("password@123"))
-                .authorities("USER", "ADMIN");
-
-        auth.userDetailsService(authUserDetailsService).passwordEncoder(passwordEncoder());
-
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -67,5 +57,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // .paths(regex("/api/v1/.*"))
     // .build();
     // }
-
 }
