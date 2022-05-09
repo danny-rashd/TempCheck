@@ -11,7 +11,7 @@ function Predictions() {
   const MAX_TEMP = 42;
 
   const handleSubmit = (evt) => {
-    if (date !=="") {
+    if (date !== "") {
       evt.preventDefault();
       console.log("DATE", date);
       const randomNumber = (

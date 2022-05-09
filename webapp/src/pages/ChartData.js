@@ -8,7 +8,9 @@ function ChartData() {
       <Container className="d-flex justify-content-center mt-3">
         <h1>ChartData</h1>
       </Container>
-      <div className="justify-content-center d-flex"><LineChart /></div>
+      <div className="justify-content-center d-flex">
+        <LineChart />
+      </div>
     </div>
   );
 }

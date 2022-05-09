@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import { Dashboard } from "./pages/response/Dashboard";
@@ -9,7 +8,7 @@ import Footer from "./components/Footer";
 import { TempTable } from "./pages/TempTable";
 import { Home } from "./pages/Home";
 import ForgotPassword from "./pages/response/ForgotPassword";
-import Predictions from "./pages/Predictions";  
+import Predictions from "./pages/Predictions";
 import ChartData from "./pages/ChartData";
 import { Error } from "./pages/Error";
 import "./App.css";
