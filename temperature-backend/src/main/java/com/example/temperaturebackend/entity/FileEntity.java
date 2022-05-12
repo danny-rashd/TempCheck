@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-// Store in MongoDB
 @Document(collection = "Temperature")
 @Setter
 @Getter

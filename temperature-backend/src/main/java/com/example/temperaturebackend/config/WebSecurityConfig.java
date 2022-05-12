@@ -46,14 +46,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors().and().headers().frameOptions().disable();
 
     }
-
-    // @Bean
-    // public Docket temperatureBackendAPI() {
-    //
-    // return new Docket(DocumentationType.SWAGGER_2)
-    // .select()
-    // .apis(RequestHandlerSelectors.basePackage("com.example.temperaturebackend.controller"))
-    // .paths(regex("/api/v1/.*"))
-    // .build();
-    // }
 }

@@ -13,7 +13,6 @@ function Predictions() {
   const handleSubmit = (evt) => {
     if (date !== "") {
       evt.preventDefault();
-      console.log("DATE", date);
       const randomNumber = (
         MIN_TEMP +
         Math.random() * (MAX_TEMP - MIN_TEMP)
@@ -21,7 +20,7 @@ function Predictions() {
       setTimeout(function () {
         setTemperature(randomNumber);
       }, 2000);
-    } else return console.log("Invalid date");
+    } else return ;
   };
 
   return (

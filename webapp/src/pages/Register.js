@@ -26,7 +26,6 @@ const Register = ({ loading, error, ...props }) => {
 
     userRegister(values)
       .then((response) => {
-        console.log("response", response);
         if (response.status === 200) {
           props.setUser(response.data);
           props.history.push("/success");
@@ -38,11 +37,9 @@ const Register = ({ loading, error, ...props }) => {
         if (err && err.response) {
           switch (err.response.status) {
             case 401:
-              console.log("401 status");
               props.registerFailure("Authentication Failed.Bad Credentials");
               break;
             case 500:
-              console.log("500 status");
               props.registerFailure("This email address has been taken!");
               break;
             default:
@@ -52,7 +49,6 @@ const Register = ({ loading, error, ...props }) => {
           props.registerFailure("Authentication Error!");
         }
       });
-    //console.log("Loading again",loading);
   };
 
   const handleChange = (e) => {
@@ -63,7 +59,6 @@ const Register = ({ loading, error, ...props }) => {
     }));
   };
 
-  console.log("Loading ", loading);
 
   return (
     <div className="container-fluid ps-md-0">
@@ -225,7 +220,6 @@ const Register = ({ loading, error, ...props }) => {
 };
 
 const mapStateToProps = ({ auth }) => {
-  console.log("state ", auth);
   return {
     loading: auth.loading,
     error: auth.error,

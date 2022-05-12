@@ -23,7 +23,6 @@ const Login = ({ loading, error, ...props }) => {
 
     userLogin(values)
       .then((response) => {
-        console.log("response", response);
         if (response.status === 200) {
           props.setUser(response.data);
           props.history.push("/dashboard");
@@ -35,7 +34,6 @@ const Login = ({ loading, error, ...props }) => {
         if (err && err.response) {
           switch (err.response.status) {
             case 401:
-              console.log("401 status");
               props.loginFailure(
                 "Please activate the account by clicking the confirmation link sent to your email"
               );
@@ -57,7 +55,6 @@ const Login = ({ loading, error, ...props }) => {
     }));
   };
 
-  console.log("Loading ", loading);
 
   return (
     <div className="container-fluid ps-md-0">
@@ -183,7 +180,6 @@ const Login = ({ loading, error, ...props }) => {
 };
 
 const mapStateToProps = ({ auth }) => {
-  console.log("state ", auth);
   return {
     loading: auth.loading,
     error: auth.error,

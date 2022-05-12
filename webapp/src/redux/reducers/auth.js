@@ -6,8 +6,7 @@ const initialState = {
   loading: false,
 };
 
-const auth = (state = initialState, action) => {
-  console.log("Reducer auth");
+const auth = (state = initialState, action) => {              
   switch (action.type) {
     case AUTH_REQ:
       return { ...state, error: "", loading: true };

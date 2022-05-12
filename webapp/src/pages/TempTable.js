@@ -46,11 +46,9 @@ export const TempTable = () => {
   };
 
   const handleChangeStatus = ({ meta, file }, status) => {
-    console.log(status, meta, file);
   };
 
   const handleSubmit = (files, allFiles) => {
-    console.log(files.map((f) => f.meta));
     allFiles.forEach((f) => f.remove());
   };
 
@@ -60,11 +58,7 @@ export const TempTable = () => {
         .get(GET_CSV_API)
         .then((res) => {
           setPost(res.data);
-          console.log(res.data);
         })
-        .catch((err) => {
-          console.log(err);
-        });
     }, WAIT_TIME);
     return () => clearInterval(id);
   }, [post]);
@@ -133,18 +127,13 @@ export const TempTable = () => {
     showTotal: true,
     alwaysShowAllBtns: true,
     onPageChange: function (page, sizePerPage) {
-      console.log("page", page);
-      console.log("sizePerPage", sizePerPage);
     },
     onSizePerPageChange: function (page, sizePerPage) {
-      console.log("page", page);
-      console.log("sizePerPage", sizePerPage);
     },
   });
 
   const handleClick = async (id) => {
     const response = await fetch(DOWNLOAD_CSV_API + id);
-    console.log(response);
     const reader = response.body.getReader();
     const result = await reader.read(); // raw array
     const decoder = new TextDecoder("utf-8");

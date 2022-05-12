@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-//store data in MySQL
 @Entity
 @Table(name = "file_data")
 @Data

@@ -50,12 +50,10 @@ export default function LineChart() {
         method: "GET",
       })
         .then((data) => {
-          console.log(data);
           const res = data.json();
           return res;
         })
         .then((res) => {
-          console.log(res);
           for (const val of res) {
             dataSet1.push(val.Temperature);
             labelSet.push(val.Datetime);
@@ -73,9 +71,6 @@ export default function LineChart() {
             ],
           });
         })
-        .catch((e) => {
-          console.log("error", e);
-        });
     };
 
     fetchData();

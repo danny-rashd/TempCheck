@@ -29,12 +29,10 @@ export const RegisterSuccess = (props) => {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     setShow(false);
-    console.log(values);
     setValues("");
     axios
       .get(RESEND_EMAIL_API, { params: { email: values.email } })
       .then(() => {
-        console.log("Added Tweets");
         alert("NEW CONFIRMATION EMAIL SENT");
       });
   };
